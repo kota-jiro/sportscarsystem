@@ -1,0 +1,14 @@
+---Admin---
+Dashboard
+Add New Cars
+-> Quantity of cars added/make
+Edit/Delete
+Users
+Settings
+-> Logout
+
+
+---Client---
+Login 
+-> Login as Guest -> is maka view only sa cars
+Register

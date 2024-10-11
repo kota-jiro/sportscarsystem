@@ -1,0 +1,23 @@
+name: sportscar
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  animated_bottom_navigation_bar: ^1.3.3
+  flutter:
+    sdk: flutter
+  page_transition: ^2.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+   - lib/images/
