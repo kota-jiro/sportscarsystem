@@ -269,8 +269,8 @@ const Cart = () => {
                   {about.info.map((item, index)=> {
                     return(
                       <li key={index} className='flex items-center justify-center xl:justify-start gap-4'>
-                        <span className='text-white/60'>{item.fieldValue}</span>
-                        <span className='text-xl'>{item.fieldName}</span>
+                        <span className='text-white/60'>{item.fieldName}</span>
+                        <span className='text-xl'>{item.fieldValue}</span>
                       </li>
                     )
                   })}
