@@ -10,7 +10,7 @@ const links = [
         path: "/",
     },
     {
-        name: "sportscars",
+        name: "sports cars",
         path: "/sportscars",
     },
     {
@@ -22,8 +22,8 @@ const links = [
       path: "/contact",
     },
     {
-      name: "cart",
-      path: "/cart",
+      name: "car file",
+      path: "/carfile",
     },
 ];
 

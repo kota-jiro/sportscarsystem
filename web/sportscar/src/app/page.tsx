@@ -12,7 +12,7 @@ const Home = () => {
         <div className='flex flex-col xl:flex-row items-center justify-between xl:pt-8 xl:pb-24'>
 
           <div className='text-center xl:text-left order-2 xl:order-none'>
-            <span className='text-center xl:text-left'>SportsCar Dealership</span>
+            <span className='text-center xl:text-left'>Sports Car Dealership</span>
             <h1 className='h1 mb-6'>
               {/* Hello I&apos;m <br /><span className='text-accent'>Joshua Mark</span> */}
               Find Car<br /><span className='text-accent'>Ride Own</span>

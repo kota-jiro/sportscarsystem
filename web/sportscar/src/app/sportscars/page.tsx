@@ -1,10 +1,9 @@
-import React from 'react'
+
+import React from "react"
 
 const SportsCars = () => {
   return (
-    <div>
-      sportscars page
-    </div>
+    <div>sportscar page</div>
   )
 }
 
