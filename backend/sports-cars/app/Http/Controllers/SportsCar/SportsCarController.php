@@ -44,7 +44,7 @@ class SportsCarController extends Controller
     if ($request->hasFile('image')) {
         $image = $request->file('image');
         $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'), $imageName); // Move the image to the 'public/images' directory
+        $image->move(public_path('images/cars/'), $imageName); // Move the image to the 'public/images' directory
     } else {
         $imageName = 'default.jpg'; // Set a default image if no image is uploaded
     }

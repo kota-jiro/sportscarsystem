@@ -16,7 +16,7 @@
                         <h5 class="card-title">{{ $car->make }} {{ $car->model }}</h5>
                         <p class="card-text">
                             <strong>Year:</strong> {{ $car->year }}<br>
-                            <strong>Price:</strong> ${{ number_format($car->price, 2) }}
+                            <strong>Price:</strong> ₱{{ number_format($car->price, 2) }}
                         </p>
                         <a href="{{ route('sportscars.show', $car->id) }}" class="btn btn-info">View Details</a>
                         <a href="{{ route('sportscars.edit', $car->id) }}" class="btn btn-warning btn-sm">Edit</a>
