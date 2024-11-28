@@ -157,7 +157,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { motion } from 'framer-motion';
 
-const Cart = () => {
+const CarFile = () => {
   return (
     <div>
         <motion.div initial={{opacity: 0}}
@@ -286,4 +286,4 @@ const Cart = () => {
   )
 }
 
-export default Cart
+export default CarFile
