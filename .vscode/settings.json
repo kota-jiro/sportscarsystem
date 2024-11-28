@@ -1,0 +1,6 @@
+{
+    "editor.autoIndent": "full",
+    "editor.foldingStrategy": "auto",
+    "editor.stickyScroll.defaultModel": "outlineModel",
+    "editor.hideCursorInOverviewRuler": false
+}
