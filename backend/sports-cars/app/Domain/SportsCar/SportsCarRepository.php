@@ -10,6 +10,8 @@ interface SportsCarRepository
     public function createSportsCar(SportsCar $sportsCar): void;
     public function updateSportsCar(SportsCar $sportsCar): void;
     public function deleteSportsCar(int $id): void;
+    public function findDeletedSportsCar(): array;
+    public function restoreSportsCar(int $id): void;
     public function searchSportsCar(string $search): array;
 
 }
