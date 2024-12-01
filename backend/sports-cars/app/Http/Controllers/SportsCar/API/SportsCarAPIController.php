@@ -50,7 +50,7 @@ class SportsCarAPIController extends Controller
             return response()->json(['message' => 'SportsCar not found', 'id' => $sportsCarId], 404);
         }
         $sportsCar = $sportsCarModel->toArray();
-        return response()->json(compact('sportsCar'));
+        return response()->json(compact('sportsCar'), 200);
     }
     /**
      * generate random alphanumeric id
@@ -67,7 +67,6 @@ class SportsCarAPIController extends Controller
         do {
             $sportsCarId = $this->generateRandomAlphanumericID(15);
         } while ($this->registerSportsCar->findBySportsCarID($sportsCarId));
-
         return $sportsCarId;
     }
     /**
@@ -89,7 +88,6 @@ class SportsCarAPIController extends Controller
             return response()->json($validate->errors(), 422);
         }
         $sportsCarId = $this->generateUniqueSportsCarID();
-
         if ($request->file('image')) {
             // Get the image from the request.
             $image = $request->file('image');
@@ -118,7 +116,6 @@ class SportsCarAPIController extends Controller
             Carbon::now()->toDateTimeString(),
             Carbon::now()->toDateTimeString(),
         );
-
         return response()->json(['message' => 'SportsCar created successfully'], 201);
     }
     /**
@@ -161,7 +158,6 @@ class SportsCarAPIController extends Controller
                 $data['image'] = $sportsCar->getImage();
             }
         }
-
         $this->registerSportsCar->updateSportsCar(
             $sportsCarId,
             $data['brand'],
@@ -184,13 +180,10 @@ class SportsCarAPIController extends Controller
         if (!$search) {
             return null;
         }
-
         $result = $this->registerSportsCar->searchSportsCar($search);
-
         if (is_null($result['exact_match'] && empty($result['related_match']))) {
             return response()->json(['message' => 'No data found.']);
         }
-
         return response()->json(compact('result'));
     }
 }
