@@ -13,5 +13,5 @@ Route::get('/sportsCars', [SportsCarAPIController::class, 'getAll']); // done it
 Route::get('/sportsCar/{sportsCarId}', [SportsCarAPIController::class, 'getBySportsCarId']); // done its working
 Route::post('/sportsCar/add', [SportsCarAPIController::class, 'addSportsCar']); // done its working
 Route::put('/sportsCar/update/{sportsCarId}', [SportsCarAPIController::class, 'updateSportsCar']); // done its working
-Route::get('/sportsCar/search', [SportsCarAPIController::class, 'searchSportsCar']);
+Route::get('/sportsCar/search', [SportsCarAPIController::class, 'searchSportsCar']); //undone
 

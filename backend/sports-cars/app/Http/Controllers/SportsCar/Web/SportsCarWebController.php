@@ -104,24 +104,23 @@ class SportsCarWebController extends Controller
             return redirect()->back()->with('error', 'SportsCar not found');
         }
 
-        return view('sportsCars.show', compact('showSportsCar'));
+        return view('sportsCars.show', compact('sportsCar'));
     }
     public function edit($id)
     {
         $sportsCar = SportsCarModel::find($id);
-        return view('sportsCars.edit', compact('editSportsCar'));
+        return view('sportsCars.edit', compact('sportsCar'));
     }
     public function update(Request $request, $sportsCarId)
     {
         $data = $request->all();
         $validate = Validator::make($data, [
-            'name' => 'required|string',
+            'brand' => 'required|string',
+            'model' => 'required|string',
             'description' => 'required|string',
-            'category' => 'required|string',
-            'ingredients' => 'required|string',
-            'country' => 'required|string',
-            'prep_time' => 'required|integer',
-            'yt_link' => 'required|string',
+            'speed' => 'required|string',
+            'drivetrain' => 'required|string',
+            'price' => 'required|numeric',
             'image' => 'nullable',
         ]);
         if ($validate->fails()) {
