@@ -84,6 +84,12 @@ class RegisterSportsCar
     public function deleteSportsCar(int $id){
         $this->sportsCarRepository->deleteSportsCar($id);
     }
+    public function findDeletedSportsCar(){
+        return $this->sportsCarRepository->findDeletedSportsCar();
+    }
+    public function restoreSportsCar(int $id){
+        $this->sportsCarRepository->restoreSportsCar($id);
+    }
     public function searchSportsCar(string $search){
         $results = $this->sportsCarRepository->searchSportsCar($search);
         

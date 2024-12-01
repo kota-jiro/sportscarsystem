@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SportsCarModel extends Model {
     use HasFactory;
-    protected $table = 'sportscar';
+    protected $table = 'sportsCars';
     protected $fillable = [
         'id',
         'sportsCarId',
@@ -20,5 +20,6 @@ class SportsCarModel extends Model {
         'image',
         'created_at',
         'updated_at',
+        'isDeleted',
     ];
 }
