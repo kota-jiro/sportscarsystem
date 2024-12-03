@@ -19,6 +19,7 @@ class EloquentSportsCarRepository implements SportsCarRepository {
             $sportsCar->sportsCarId,
             $sportsCar->brand,
             $sportsCar->model,
+            $sportsCar->year,
             $sportsCar->description,
             $sportsCar->speed,
             $sportsCar->drivetrain,
@@ -38,6 +39,7 @@ class EloquentSportsCarRepository implements SportsCarRepository {
             $sportsCar->sportsCarId,
             $sportsCar->brand,
             $sportsCar->model,
+            $sportsCar->year,
             $sportsCar->description,
             $sportsCar->speed,
             $sportsCar->drivetrain,
@@ -54,6 +56,7 @@ class EloquentSportsCarRepository implements SportsCarRepository {
             'sportsCarId' => $sportsCar->getSportsCarId(),
             'brand' => $sportsCar->getBrand(),
             'model' => $sportsCar->getModel(),
+            'year' => $sportsCar->getYear(),
             'description' => $sportsCar->getDescription(),
             'speed' => $sportsCar->getSpeed(),
             'drivetrain' => $sportsCar->getDrivetrain(),
@@ -67,28 +70,17 @@ class EloquentSportsCarRepository implements SportsCarRepository {
     public function updateSportsCar(SportsCar $sportsCar): void {
         $existingSportsCar = SportsCarModel::where('sportsCarId', $sportsCar->getSportsCarId())->first();
         if ($existingSportsCar) {
-            $existingSportsCar->brand = $sportsCar->getBrand();
-            $existingSportsCar->model = $sportsCar->getModel();
-            $existingSportsCar->description = $sportsCar->getDescription();
-            $existingSportsCar->speed = $sportsCar->getSpeed();
-            $existingSportsCar->drivetrain = $sportsCar->getDrivetrain();
-            $existingSportsCar->price = $sportsCar->getPrice();
-            $existingSportsCar->image = $sportsCar->getImage();
-            $existingSportsCar->updated_at = $sportsCar->getUpdatedAt();
-            $existingSportsCar->save();
-        }
-        else {
-            $existingSportsCar->id = $sportsCar->getId();
-            $existingSportsCar->sportsCarId = $sportsCar->getSportsCarId();
-            $existingSportsCar->brand = $sportsCar->getBrand();
-            $existingSportsCar->model = $sportsCar->getModel();
-            $existingSportsCar->description = $sportsCar->getDescription();
-            $existingSportsCar->speed = $sportsCar->getSpeed();
-            $existingSportsCar->drivetrain = $sportsCar->getDrivetrain();
-            $existingSportsCar->price = $sportsCar->getPrice();
-            $existingSportsCar->image = $sportsCar->getImage();
-            $existingSportsCar->updated_at = $sportsCar->getUpdatedAt();
-            $existingSportsCar->save();
+            $existingSportsCar->update([
+                'brand' => $sportsCar->getBrand(),
+                'model' => $sportsCar->getModel(),
+                'year' => $sportsCar->getYear(),
+                'description' => $sportsCar->getDescription(),
+                'speed' => $sportsCar->getSpeed(),
+                'drivetrain' => $sportsCar->getDrivetrain(),
+                'price' => $sportsCar->getPrice(),
+                'image' => $sportsCar->getImage(),
+                'updated_at' => $sportsCar->getUpdatedAt(),
+            ]);
         }
     }
     public function deleteSportsCar(int $id): void {
@@ -133,6 +125,7 @@ class EloquentSportsCarRepository implements SportsCarRepository {
                 $exact_match->sportsCarId,
                 $exact_match->brand,
                 $exact_match->model,
+                $exact_match->year,
                 $exact_match->description,
                 $exact_match->speed,
                 $exact_match->drivetrain,
@@ -147,6 +140,7 @@ class EloquentSportsCarRepository implements SportsCarRepository {
                     $sportsCar->sportsCarId,
                     $sportsCar->brand,
                     $sportsCar->model,
+                    $sportsCar->year,
                     $sportsCar->description,
                     $sportsCar->speed,
                     $sportsCar->drivetrain,

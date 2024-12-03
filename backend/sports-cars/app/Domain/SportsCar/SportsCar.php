@@ -7,6 +7,7 @@ class SportsCar {
     private ?string $sportsCarId;
     private ?string $brand;
     private ?string $model;
+    private ?string $year;
     private ?string $description;
     private ?string $speed;
     private ?string $drivetrain;
@@ -14,12 +15,14 @@ class SportsCar {
     private ?string $image;
     private ?string $created_at;
     private ?string $updated_at;
+    private ?string $isDeleted;
     
     public function __construct(
         ?int $id = null,
         ?string $sportsCarId = null,
         ?string $brand = null,
         ?string $model = null,
+        ?int $year = null,
         ?string $description = null,
         ?string $speed = null,
         ?string $drivetrain = null,
@@ -27,11 +30,13 @@ class SportsCar {
         ?string $image = null,
         ?string $created_at = null,
         ?string $updated_at = null,
+        ?bool $isDeleted = false,
     ){
         $this->id = $id;
         $this->sportsCarId = $sportsCarId;
         $this->brand = $brand;
         $this->model = $model;
+        $this->year = $year;
         $this->description = $description;
         $this->speed = $speed;
         $this->drivetrain = $drivetrain;
@@ -39,6 +44,7 @@ class SportsCar {
         $this->image = $image;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
+        $this->isDeleted = $isDeleted;
     }
     public function toArray() {
         return [
@@ -46,13 +52,15 @@ class SportsCar {
             'sportsCarId' => $this->sportsCarId,
             'brand' => $this->brand,
             'model' => $this->model,
+            'year' => $this->year,
             'description' => $this->description,
             'speed' => $this->speed,
             'drivetrain' => $this->drivetrain,
             'price' => $this->price,
-            'image' => $this->image,
+            'image' => $this->image,    
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'isDeleted' => $this->isDeleted,
         ];
     }
     public function getId() {
@@ -67,6 +75,9 @@ class SportsCar {
     public function getModel() {
         return $this->model;
     }   
+    public function getYear() {
+        return $this->year;
+    }
     public function getDescription() {
         return $this->description;
     }
@@ -87,5 +98,8 @@ class SportsCar {
     }
     public function getUpdatedAt() {
         return $this->updated_at;
+    }
+    public function getIsDeleted() {
+        return $this->isDeleted;
     }
 }
