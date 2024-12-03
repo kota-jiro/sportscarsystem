@@ -9,15 +9,17 @@ Route::get('/', function () {
 });
 
 /* http://127.0.0.1:8000/web/sportsCars */
-Route::get('/sportsCars', [SportsCarWebController::class, 'index'])->name('sportsCars.index');
-Route::get('/sportsCar/create', [SportsCarWebController::class, 'create'])->name('sportsCars.create');
-Route::post('/sportsCar/store', [SportsCarWebController::class, 'store'])->name('sportsCars.store');
-Route::get('/sportsCar/{sportsCarId}', [SportsCarWebController::class, 'show'])->name('sportsCars.show');
-Route::get('/sportsCar/edit/{sportsCarId}', [SportsCarWebController::class, 'edit'])->name('sportsCars.edit');
-Route::put('/sportsCar/update/{sportsCarId}', [SportsCarWebController::class, 'update'])->name('sportsCars.update');
-Route::delete('/sportsCar/{sportsCarId}', [SportsCarWebController::class, 'destroy'])->name('sportsCars.destroy');
-Route::get('/sportsCar/archive', [SportsCarWebController::class, 'archive'])->name('sportsCars.archive');
-Route::get('/sportsCar/restore/{sportsCarId}', [SportsCarWebController::class, 'restore'])->name('sportsCars.restore');
+Route::get('/sportsCars', [SportsCarWebController::class, 'index'])->name('sportsCars.index'); // done its working
+Route::get('/sportsCar/create', [SportsCarWebController::class, 'create'])->name('sportsCars.create'); // done its working
+Route::post('/sportsCar/store', [SportsCarWebController::class, 'store'])->name('sportsCars.store'); // done its working
+Route::get('/sportsCar/show/{sportsCarId}', [SportsCarWebController::class, 'show'])->name('sportsCars.show'); // done its working
+Route::get('/sportsCar/showAll', [SportsCarWebController::class, 'showAll'])->name('sportsCars.showAll'); // done its working
+Route::get('/sportsCar/edit/{sportsCarId}', [SportsCarWebController::class, 'edit'])->name('sportsCars.edit'); // done its working
+Route::put('/sportsCar/update/{sportsCarId}', [SportsCarWebController::class, 'update'])->name('sportsCars.update'); // done its working
+Route::delete('/sportsCar/{id}', [SportsCarWebController::class, 'destroy'])->name('sportsCars.destroy'); // done its working
+Route::get('/sportsCar/archive', [SportsCarWebController::class, 'archive'])->name('sportsCars.archive'); // done its working
+Route::get('/sportsCar/restore/{id}', [SportsCarWebController::class, 'restore'])->name('sportsCars.restore'); // done its working
+Route::delete('/sportsCar/permanentDelete/{id}', [SportsCarWebController::class, 'permanentDelete'])->name('sportsCars.permanentDelete'); // done its working
 
 /* //my old routes
 // Route for the home page that lists all sports cars

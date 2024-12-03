@@ -1,8 +1,10 @@
 @extends('layout.app')
 
-@section('content')
-    <h2>Add New Sports Car</h2>
+@section('title', 'Add New Sports Car')
 
+@section('content')
+<div class="container">
+    <h1>Add New Sports Car</h1>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -12,34 +14,42 @@
             </ul>
         </div>
     @endif
-
-    <form action="{{ route('sportscars.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('sportsCars.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="make">Make:</label>
-            <input type="text" name="make" class="form-control" required>
+            <label for="name">Brand</label>
+            <input type="text" class="form-control" id="name" name="brand" required>
         </div>
         <div class="form-group">
-            <label for="model">Model:</label>
-            <input type="text" name="model" class="form-control" required>
+            <label for="model">Model</label>
+            <input type="text" class="form-control" id="model" name="model" required>
         </div>
         <div class="form-group">
-            <label for="year">Year:</label>
-            <input type="number" name="year" class="form-control" required>
+            <label for="year">Year</label>
+            <input type="text" class="form-control" id="year" name="year" required>
         </div>
         <div class="form-group">
-            <label for="price">Price:</label>
-            <input type="number" name="price" class="form-control" required>
+            <label for="model">Description</label>
+            <input type="text" class="form-control" id="model" name="description" required>
         </div>
         <div class="form-group">
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" class="form-control" required>
+            <label for="model">Speed</label>
+            <input type="text" class="form-control" id="model" name="speed" required>
         </div>
         <div class="form-group">
-            <label for="image">Image:</label>
+            <label for="model">Drivetrain</label>
+            <input type="text" class="form-control" id="model" name="drivetrain" required>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" name="price" required>
+        </div>
+        <div class="form-group">
+            <label for="image">Image</label>
             <input type="file" name="image" class="form-control-file" required>
         </div>
-        <button type="submit" class="btn btn-success">Add Sports Car</button>
+        <button type="submit" class="btn btn-primary">Add Sports Car</button>
+        <a href="{{ route('sportsCars.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
+</div>
 @endsection
-
