@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('sportsCarId', 15)->unique();
             $table->string('brand', 50)->nullable();
             $table->string('model', 50)->nullable();
+            $table->integer('year')->nullable();
             $table->string('description', 255)->nullable();
             $table->string('speed', 25)->nullable();
             $table->string('drivetrain', 25)->nullable();
