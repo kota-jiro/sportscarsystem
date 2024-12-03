@@ -1,8 +1,10 @@
 @extends('layout.app')
 
-@section('content')
-    <h2>Edit Sports Car</h2>
+@section('title', 'Edit Sports Car')
 
+@section('content')
+<div class="container">
+    <h1>Edit Sports Car</h1>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -12,37 +14,44 @@
             </ul>
         </div>
     @endif
-
-    <form action="{{ route('sportscars.update', $car->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('sportsCars.update', $sportsCar->sportsCarId) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="make">Make:</label>
-            <input type="text" name="make" class="form-control" value="{{ $car->make }}" required>
+            <label for="brand">Brand</label>
+            <input type="text" name="brand" class="form-control" value="{{ $sportsCar->brand }}" required>
         </div>
         <div class="form-group">
-            <label for="model">Model:</label>
-            <input type="text" name="model" class="form-control" value="{{ $car->model }}" required>
+            <label for="model">Model</label>
+            <input type="text" name="model" class="form-control" value="{{ $sportsCar->model }}" required>
         </div>
         <div class="form-group">
-            <label for="year">Year:</label>
-            <input type="number" name="year" class="form-control" value="{{ $car->year }}" required>
+            <label for="year">Year</label>
+            <input type="text" name="year" class="form-control" value="{{ $sportsCar->year }}" required>
         </div>
         <div class="form-group">
-            <label for="price">Price:</label>
-            <input type="number" name="price" class="form-control" value="{{ $car->price }}" required>
+            <label for="description">Description</label>
+            <input type="text" name="description" class="form-control" value="{{ $sportsCar->description }}" required>
         </div>
         <div class="form-group">
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" class="form-control" value="{{ $car->quantity }}" required>
+            <label for="speed">Speed</label>
+            <input type="text" name="speed" class="form-control" value="{{ $sportsCar->speed }}" required>
+        </div>
+        <div class="form-group">
+            <label for="drivetrain">Drivetrain</label>
+            <input type="text" name="drivetrain" class="form-control" value="{{ $sportsCar->drivetrain }}" required>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" name="price" class="form-control" value="{{ $sportsCar->price }}" required>
         </div>
         <div class="form-group">
             <label for="image">Image:</label>
             <input type="file" name="image" class="form-control-file">
-            <p>Current Image: <img src="{{ asset('images/cars/' . $car->image) }}" alt="{{ $car->make }} {{ $car->model }}" style="width: 150px;"></p>
+            <p>Current Image: <img src="{{ asset('images/cars/' . $sportsCar->image) }}" alt="{{ $sportsCar->brand }} {{ $sportsCar->model }} " style="width: 150px;"></p>
         </div>
         <button type="submit" class="btn btn-primary">Update Sports Car</button>
+        <a href="{{ route('sportsCars.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
+</div>
 @endsection
-
-
