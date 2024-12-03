@@ -39,19 +39,22 @@ class SportsCarWebController extends Controller
     public function getSportsCar()
     {
         $sportsCars = $this->registerSportsCar->findAll();
-        if (!$sportsCars) {
-            return null;
+        if (empty($sportsCars)) {
+            return [];
         }
-        return array_map(
-            fn($sportsCar) =>
-            $sportsCar->toArray(),
-            $sportsCars
-        );
+
+        if (is_array($sportsCars)) {
+            return $sportsCars;
+        }
+
+        return $sportsCars->toArray();
     }
     public function index()
     {
-        $sportsCars = $this->getSportsCar();
-        return view('sportsCars.index', compact('sportsCars'));
+        $sportsCars = SportsCarModel::where('isDeleted', false)->get();
+        $sportsCarCount = $sportsCars->count();
+        $totalBrands = $sportsCars->unique('brand')->count();
+        return view('sportsCars.index', compact('sportsCars', 'sportsCarCount', 'totalBrands'));
     }
     public function create()
     {
@@ -61,13 +64,16 @@ class SportsCarWebController extends Controller
     {
         $data = $request->all();
         $validate = Validator::make($data, [
-            'brand' => 'required|string',
-            'model' => 'required|string',
-            'description' => 'required|string',
-            'speed' => 'required|string',
-            'drivetrain' => 'required|string',
+            'brand' => 'required|string|max:25',
+            'model' => 'required|string|max:25',
+            'year' => 'required|digits:4|numeric|min:1900',
+            'description' => 'required|string|max:255',
+            'speed' => 'required|string|max:25',
+            'drivetrain' => 'required|string|max:25',
             'price' => 'required|numeric',
             'image' => 'nullable',
+        ], [
+            'year' => 'The year must be exactly 4 digits.',
         ]);
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput();
@@ -87,6 +93,7 @@ class SportsCarWebController extends Controller
             $sportsCarId,
             $request->brand,
             $request->model,
+            $request->year,
             $request->description,
             $request->speed,
             $request->drivetrain,
@@ -99,73 +106,113 @@ class SportsCarWebController extends Controller
     }
     public function show($id)
     {
-        $sportsCar = SportsCarModel::find($id);
-        if (!$sportsCar) {
-            return redirect()->back()->with('error', 'SportsCar not found');
+        $sportsCars = SportsCarModel::find($id);
+
+        if (!$sportsCars) {
+            return redirect()->route('sportsCars.index')->with('error', 'SportsCar not found');
         }
 
-        return view('sportsCars.show', compact('sportsCar'));
+        return view('sportsCars.showById', compact('sportsCars'));
     }
-    public function edit($id)
+    public function showAll()
     {
-        $sportsCar = SportsCarModel::find($id);
+        $sportsCars = SportsCarModel::where('isDeleted', false)->get();
+        return view('sportsCars.show', compact('sportsCars'));
+    }
+    public function edit($sportsCarId)
+    {
+        $sportsCar = SportsCarModel::find($sportsCarId);
+        if (!$sportsCar) {
+            return redirect()->route('sportsCars.index')->with('error', 'SportsCar not found');
+        }
         return view('sportsCars.edit', compact('sportsCar'));
     }
     public function update(Request $request, $sportsCarId)
     {
         $data = $request->all();
         $validate = Validator::make($data, [
-            'brand' => 'required|string',
-            'model' => 'required|string',
-            'description' => 'required|string',
-            'speed' => 'required|string',
-            'drivetrain' => 'required|string',
+            'brand' => 'required|string|max:25',
+            'model' => 'required|string|max:25',
+            'year' => 'required|digits:4|numeric|min:1900',
+            'description' => 'required|string|max:255',
+            'speed' => 'required|string|max:25',
+            'drivetrain' => 'required|string|max:25',
             'price' => 'required|numeric',
             'image' => 'nullable',
+        ], [
+            'year' => 'The year must be exactly 4 digits and must be greater than 1900.',
         ]);
+
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput();
         }
-        $sportsCar = SportsCarModel::find($sportsCarId);
+
+        $sportsCar = $this->registerSportsCar->findBySportsCarId($sportsCarId);
+
+        if (!$sportsCar) {
+            return redirect()->route('sportsCars.index')->with('error', 'SportsCar not found');
+        }
+
         if ($request->hasFile('image')) {
-            if ($sportsCar->image !== 'default.jpg') {
-                File::delete('images/' . $sportsCar->image);
+            if ($sportsCar->getImage() !== 'default.jpg') {
+                File::delete('images/' . $sportsCar->getImage());
             }
             $image = $request->file('image');
             $imageName = time() . "." . $image->getClientOriginalExtension();
             $image->move('images', $imageName);
             $data['image'] = $imageName;
         } else {
-            $data['image'] = $sportsCar->image;
+            $data['image'] = $sportsCar->getImage();
         }
+
         $this->registerSportsCar->updateSportsCar(
             $sportsCarId,
             $request->brand,
             $request->model,
+            $request->year,
             $request->description,
             $request->speed,
             $request->drivetrain,
             $request->price,
             $data['image'],
-            Carbon::now()->toDateTimeString(),
+            Carbon::now()->toDateTimeString()
         );
 
         return redirect()->route('sportsCars.index')->with('success', 'SportsCar updated successfully');
-
     }
-    public function destroy($sportsCarId)
+    public function destroy($id)
     {
-        $this->registerSportsCar->deleteSportsCar($sportsCarId);
-        return redirect()->route('sportsCars.index')->with('success', 'SportsCar deleted successfully');
+        $this->registerSportsCar->deleteSportsCar($id);
+        return redirect()->route('sportsCars.index')->with('archive', 'SportsCar archived successfully');
     }
     public function archive()
     {
-        $deletedSportsCars = $this->registerSportsCar->findDeletedSportsCar();
-        return view('sportsCars.archive', compact('deletedSportsCars'));
+        $deletedSportsCars = SportsCarModel::where('isDeleted', true)->get();
+        $totalArchived = $deletedSportsCars->count();
+        return view('sportsCars.archive', compact('deletedSportsCars', 'totalArchived'));
     }
-    public function restore($sportsCarId)
+    public function restore($id)
     {
-        $this->registerSportsCar->restoreSportsCar($sportsCarId);
-        return redirect()->route('archive')->with('success', 'SportsCar restored successfully');
+        $car = SportsCarModel::find($id);
+        $car->isDeleted = false;
+        $car->save();
+
+        return redirect()->route('sportsCars.archive')->with('restore', 'SportsCar restored successfully');
+    }
+    public function permanentDelete($id)
+    {
+        $car = SportsCarModel::find($id);
+
+        if ($car) {
+            // Delete the image file if it's not the default image
+            if ($car->image !== 'default.jpg') {
+                File::delete(public_path('images/' . $car->image));
+            }
+
+            // Permanently delete the car record
+            $car->delete();
+        }
+
+        return redirect()->route('sportsCars.archive')->with('success', 'SportsCar permanently deleted successfully');
     }
 }
