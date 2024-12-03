@@ -53,9 +53,11 @@
                             </nav>
                         @endif
                     </header>
-
+                    
                     <main class="mt-6">
                         <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
+                            <h3>Halo want to go into my app?</h3>
+                            <span><a href="{{ route('sportsCars.index') }}">go to my app</a></span>
                             <a
                                 href="https://laravel.com/docs"
                                 id="docs-card"
