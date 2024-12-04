@@ -76,11 +76,12 @@ class SportsCarAPIController extends Controller
     {
         $data = $request->all();
         $validate = Validator::make($data, [
-            'brand' => 'required|string',
-            'model' => 'required|string',
-            'description' => 'required|string',
-            'speed' => 'required|string',
-            'drivetrain' => 'required|string',
+            'brand' => 'required|string|max:25',
+            'model' => 'required|string|max:25',
+            'year' => 'required|digits:4|numeric|min:1900',
+            'description' => 'required|string|max:255',
+            'speed' => 'required|string|max:25',
+            'drivetrain' => 'required|string|max:25',
             'price' => 'required|numeric',
             'image' => 'nullable',
         ]);
@@ -108,6 +109,7 @@ class SportsCarAPIController extends Controller
             $sportsCarId,
             $request->brand,
             $request->model,
+            $request->year,
             $request->description,
             $request->speed,
             $request->drivetrain,
@@ -128,11 +130,12 @@ class SportsCarAPIController extends Controller
             return response()->json(['message' => 'SportsCar not found', 'id' => $sportsCarId], 404);
         }
         $validate = Validator::make($request->all(), [
-            'brand' => 'required|string',
-            'model' => 'required|string',
-            'description' => 'required|string',
-            'speed' => 'required|string',
-            'drivetrain' => 'required|string',
+            'brand' => 'required|string|max:25',
+            'model' => 'required|string|max:25',
+            'year' => 'required|digits:4|numeric|min:1900',
+            'description' => 'required|string|max:255',
+            'speed' => 'required|string|max:25',
+            'drivetrain' => 'required|string|max:25',
             'price' => 'required|numeric',
             'image' => 'nullable',
         ]);
@@ -162,6 +165,7 @@ class SportsCarAPIController extends Controller
             $sportsCarId,
             $data['brand'],
             $data['model'],
+            $data['year'],
             $data['description'],
             $data['speed'],
             $data['drivetrain'],
