@@ -5,13 +5,28 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-semibold text-gray-800 text-center mb-4">Archived Sports Cars</h1>
+
     @if(session('restore'))
         <div class="alert alert-success">
             {{ session('restore') }}
             <a href="{{ route('sportsCars.index') }}" class="btn btn-secondary">View Cars</a>
         </div>
     @endif
-    <p>Total Archived Cars: {{ $totalArchived }}</p>
+
+    <form method="GET" action="{{ route('sportsCars.archive') }}" class="mb-3">
+        <p>Total Archived Brands: {{ $totalBrands }}</p>
+        <div class="form-group">
+            <label for="brand">Select Brand:</label>
+            <select name="brand" id="brand" class="form-control" onchange="this.form.submit()">
+                <option value="">All Brands</option>
+                @foreach($brands as $brand)
+                    <option value="{{ $brand }}" {{ $brandFilter == $brand ? 'selected' : '' }}>{{ $brand }}</option>
+                @endforeach
+            </select>
+        </div>
+        <p>Total Archived Sports Cars: {{ $totalArchived }}</p>
+    </form>
+    
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <table border="1" width="100%" class="min-w-full divide-y divide-gray-200">
             <thead class="">
