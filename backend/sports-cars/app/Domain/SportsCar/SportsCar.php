@@ -7,7 +7,7 @@ class SportsCar {
     private ?string $sportsCarId;
     private ?string $brand;
     private ?string $model;
-    private ?string $year;
+    private ?int $year;
     private ?string $description;
     private ?string $speed;
     private ?string $drivetrain;
