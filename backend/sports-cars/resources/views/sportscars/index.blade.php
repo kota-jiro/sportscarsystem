@@ -8,16 +8,7 @@
         <h1>Exotic Cars</h1>
         <a href="{{ route('sportsCars.create') }}" class="btn btn-primary">Add New Sports Car</a>
     </div>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
+    
     @if(session('archive'))
         <div class="alert alert-success">
             {{ session('archive') }}
@@ -25,8 +16,20 @@
         </div>
     @endif
 
-    <p>Total Cars: {{ $sportsCarCount }}</p>
-    <p>Total Brands: {{ $totalBrands }}</p>
+    <form method="GET" action="{{ route('sportsCars.index') }}" class="mb-3">
+        <p>Total Brands: {{ $totalBrands }}</p>
+        <div class="form-group">
+            <label for="brand">Select Brand:</label>
+            <select name="brand" id="brand" class="form-control" onchange="this.form.submit()">
+                <option value="">All Brands</option>
+                @foreach($brands as $brand)
+                    <option value="{{ $brand }}" {{ $brandFilter == $brand ? 'selected' : '' }}>{{ $brand }}</option>
+                @endforeach
+            </select>
+        </div>
+        <p>Total Sports Cars: {{ $sportsCarCount }}</p>
+    </form>
+
     <table border="1" width="100%" class="table table-striped">
         <thead>
             <tr>
@@ -45,32 +48,30 @@
         </thead>
         <tbody>
             @foreach($sportsCars as $car)
-                @if(!$car['isDeleted'])
-                    <tr>
-                        <td>{{ $car['id'] }}</td>
-                        <td>{{ $car['sportsCarId'] }}</td>
-                        <td><img src="{{ asset('images/cars/' . $car['image']) }}" class="card-img-top"
-                                alt="{{ $car['brand'] }} Image" style="height: 200px; object-fit: cover;"></td>
-                        <td>{{ $car['brand'] }}</td>
-                        <td>{{ $car['model'] }}</td>
-                        <td>{{ $car['year'] }}</td>
-                        <td>{{ $car['description'] }}</td>
-                        <td>{{ $car['speed'] }}</td>
-                        <td>{{ $car['drivetrain'] }}</td>
-                        <td>{{ $car['price'] }}</td>
-                        <td>
-                            <form action="{{ route('sportsCars.edit', $car['id']) }}" method="GET" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-warning">Edit</button>
-                            </form>
-                            <form action="{{ route('sportsCars.destroy', $car['id']) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Archive</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endif
+                <tr>
+                    <td>{{ $car['id'] }}</td>
+                    <td>{{ $car['sportsCarId'] }}</td>
+                    <td><img src="{{ asset('images/cars/' . $car['image']) }}" class="card-img-top"
+                            alt="{{ $car['brand'] }} Image" style="height: 200px; object-fit: cover;"></td>
+                    <td>{{ $car['brand'] }}</td>
+                    <td>{{ $car['model'] }}</td>
+                    <td>{{ $car['year'] }}</td>
+                    <td>{{ $car['description'] }}</td>
+                    <td>{{ $car['speed'] }}</td>
+                    <td>{{ $car['drivetrain'] }}</td>
+                    <td>{{ $car['price'] }}</td>
+                    <td>
+                        <form action="{{ route('sportsCars.edit', $car['id']) }}" method="GET" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-warning">Edit</button>
+                        </form>
+                        <form action="{{ route('sportsCars.destroy', $car['id']) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Archive</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
