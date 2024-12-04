@@ -7,7 +7,7 @@ class SportsCar {
     private ?string $sportsCarId;
     private ?string $brand;
     private ?string $model;
-    private ?string $year;
+    private ?int $year;
     private ?string $description;
     private ?string $speed;
     private ?string $drivetrain;
@@ -15,7 +15,7 @@ class SportsCar {
     private ?string $image;
     private ?string $created_at;
     private ?string $updated_at;
-    private ?string $isDeleted;
+    private ?bool $isDeleted;
     
     public function __construct(
         ?int $id = null,

@@ -49,12 +49,21 @@ class SportsCarWebController extends Controller
 
         return $sportsCars->toArray();
     }
-    public function index()
+    public function index(Request $request)
     {
-        $sportsCars = SportsCarModel::where('isDeleted', false)->get();
+        $brandFilter = $request->input('brand');
+        $query = SportsCarModel::where('isDeleted', false);
+
+        if ($brandFilter) {
+            $query->where('brand', $brandFilter);
+        }
+
+        $sportsCars = $query->get();
         $sportsCarCount = $sportsCars->count();
-        $totalBrands = $sportsCars->unique('brand')->count();
-        return view('sportsCars.index', compact('sportsCars', 'sportsCarCount', 'totalBrands'));
+        $totalBrands = SportsCarModel::where('isDeleted', false)->distinct('brand')->count();
+        $brands = SportsCarModel::where('isDeleted', false)->distinct('brand')->pluck('brand');
+
+        return view('sportsCars.index', compact('sportsCars', 'sportsCarCount', 'totalBrands', 'brands', 'brandFilter'));
     }
     public function create()
     {
@@ -185,11 +194,21 @@ class SportsCarWebController extends Controller
         $this->registerSportsCar->deleteSportsCar($id);
         return redirect()->route('sportsCars.index')->with('archive', 'SportsCar archived successfully');
     }
-    public function archive()
+    public function archive(Request $request)
     {
-        $deletedSportsCars = SportsCarModel::where('isDeleted', true)->get();
+        $brandFilter = $request->input('brand');
+        $query = SportsCarModel::where('isDeleted', true);
+
+        if ($brandFilter) {
+            $query->where('brand', $brandFilter);
+        }
+
+        $deletedSportsCars = $query->get();
         $totalArchived = $deletedSportsCars->count();
-        return view('sportsCars.archive', compact('deletedSportsCars', 'totalArchived'));
+        $totalBrands = SportsCarModel::where('isDeleted', true)->distinct('brand')->count();
+        $brands = SportsCarModel::where('isDeleted', true)->distinct('brand')->pluck('brand');
+
+        return view('sportsCars.archive', compact('deletedSportsCars', 'totalArchived', 'totalBrands', 'brands', 'brandFilter'));
     }
     public function restore($id)
     {
