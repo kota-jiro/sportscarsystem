@@ -7,6 +7,7 @@ interface SportsCarRepository
     public function findAll(): array;
     public function findById(int $id): ?SportsCar;
     public function findBySportsCarId(string $sportsCarId): ?SportsCar;
+    public function findByBrand(string $brand): array;
     public function createSportsCar(SportsCar $sportsCar): void;
     public function updateSportsCar(SportsCar $sportsCar): void;
     public function deleteSportsCar(int $id): void;

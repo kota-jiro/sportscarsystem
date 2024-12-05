@@ -70,6 +70,28 @@ class SportsCarAPIController extends Controller
         return $sportsCarId;
     }
     /**
+     * get sports car by brand
+     */
+    public function getByBrand(string $brand, Request $request){
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        } try {
+            $sportsCarModels = $this->registerSportsCar->findByBrand($brand);
+            if (empty($sportsCarModels)) {
+                return response()->json(['message' => "No SportsCars brand found."], 404);
+            }
+            $sportsCars = array_map(function($sportsCarModel) {
+                if (is_object($sportsCarModel) && method_exists($sportsCarModel, 'toArray')) {
+                    return $sportsCarModel->toArray();
+                }
+                return $sportsCarModel;
+            }, $sportsCarModels);
+            return response()->json(compact('sportsCars'), 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+    /**
      * add a sports car
      */
     public function addSportsCar(Request $request)

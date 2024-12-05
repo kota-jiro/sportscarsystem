@@ -49,6 +49,9 @@ class EloquentSportsCarRepository implements SportsCarRepository {
             $sportsCar->updated_at,
         );
     }
+    public function findByBrand(string $brand): array {
+        return SportsCarModel::where('brand', $brand)->get()->toArray();
+    }
     public function createSportsCar(SportsCar $sportsCar): void {
         $sportsCarModel = SportsCarModel::find($sportsCar->getId()) ?? new SportsCarModel();
         $sportsCarModel->fill([
