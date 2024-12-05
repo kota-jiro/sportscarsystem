@@ -22,6 +22,9 @@ class RegisterSportsCar
     public function findBySportsCarId(string $sportsCarId){
         return $this->sportsCarRepository->findBySportsCarId($sportsCarId);
     }
+    public function findByBrand(string $brand){
+        return $this->sportsCarRepository->findByBrand($brand);
+    }
     public function createSportsCar(
         string $sportsCarId,
         string $brand,
