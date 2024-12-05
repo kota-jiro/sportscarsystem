@@ -100,7 +100,7 @@ class SportsCarAPIController extends Controller
         $validate = Validator::make($data, [
             'brand' => 'required|string|max:25',
             'model' => 'required|string|max:25',
-            'year' => 'required|digits:4|numeric|min:1900',
+            'year' => 'required|digits:4|numeric|min:1900|max:2024',
             'description' => 'required|string|max:255',
             'speed' => 'required|string|max:25',
             'drivetrain' => 'required|string|max:25',
@@ -154,7 +154,7 @@ class SportsCarAPIController extends Controller
         $validate = Validator::make($request->all(), [
             'brand' => 'required|string|max:25',
             'model' => 'required|string|max:25',
-            'year' => 'required|digits:4|numeric|min:1900',
+            'year' => 'required|digits:4|numeric|min:1900|max:2024',
             'description' => 'required|string|max:255',
             'speed' => 'required|string|max:25',
             'drivetrain' => 'required|string|max:25',
@@ -208,7 +208,7 @@ class SportsCarAPIController extends Controller
         }
         $result = $this->registerSportsCar->searchSportsCar($search);
         if (is_null($result['exact_match'] && empty($result['related_match']))) {
-            return response()->json(['message' => 'No data found.']);
+            return response()->json(['message' => 'No data found.'], 404);
         }
         return response()->json(compact('result'));
     }

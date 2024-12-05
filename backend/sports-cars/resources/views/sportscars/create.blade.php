@@ -29,16 +29,16 @@
             <input type="text" class="form-control" id="year" name="year" required>
         </div>
         <div class="form-group">
-            <label for="model">Description</label>
-            <input type="text" class="form-control" id="model" name="description" required>
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" name="description" required>
         </div>
         <div class="form-group">
-            <label for="model">Speed</label>
-            <input type="text" class="form-control" id="model" name="speed" required>
+            <label for="speed">Speed</label>
+            <input type="text" class="form-control" id="speed" name="speed" required>
         </div>
         <div class="form-group">
-            <label for="model">Drivetrain</label>
-            <input type="text" class="form-control" id="model" name="drivetrain" required>
+            <label for="drivetrain">Drivetrain</label>
+            <input type="text" class="form-control" id="drivetrain" name="drivetrain" required>
         </div>
         <div class="form-group">
             <label for="price">Price</label>
