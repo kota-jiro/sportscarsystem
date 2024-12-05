@@ -69,7 +69,7 @@ class RegisterSportsCar
         $validate = $this->sportsCarRepository->findBySportsCarId($sportsCarId);
 
         if(!$validate){
-            throw new \Exception("Sports Car not found");
+            throw new \Exception("SportsCar not found");
         }
 
         $updateSportsCar = new SportsCar(
