@@ -2,6 +2,7 @@
 
 /* use App\Http\Controllers\SportsCar\SportsCarController; //my old controller */
 use App\Http\Controllers\SportsCar\Web\SportsCarWebController;
+use App\Http\Controllers\User\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,3 +38,17 @@ Route::put('/sportscars/{id}', [SportsCarController::class, 'update'])->name('sp
 // Route for deleting a sports car
 Route::delete('/sportscars/{id}', [SportsCarController::class, 'destroy'])->name('sportscars.destroy');
  */
+
+/* http://127.0.0.1:8000/web/users */
+Route::get('/users', [UserWebController::class, 'index'])->name('users.index'); 
+Route::get('/users/create', [UserWebController::class, 'create'])->name('users.create');
+Route::post('/users/store', [UserWebController::class, 'store'])->name('users.store'); 
+Route::get('/users/show/{userId}', [UserWebController::class, 'show'])->name('users.show');
+Route::get('/users/showAll', [UserWebController::class, 'showAll'])->name('users.showAll');
+Route::get('/users/edit/{userId}', [UserWebController::class, 'edit'])->name('users.edit');
+Route::put('/users/update/{userId}', [UserWebController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UserWebController::class, 'destroy'])->name('users.destroy'); 
+Route::get('/users/archive', [UserWebController::class, 'archive'])->name('users.archive');
+Route::get('/users/restore/{id}', [UserWebController::class, 'restore'])->name('users.restore');
+Route::delete('/users/permanentDelete/{id}', [UserWebController::class, 'permanentDelete'])->name('users.permanentDelete');
+
