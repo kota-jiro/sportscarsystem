@@ -1,18 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-
 import Image from "next/image";
-import image1 from "@/images/Nissan_Skyline_R34_GT-R_Nür_001.jpg";
-import image2 from "@/images/2015_Porsche_911_Carrera_4S_Coupe.jpg";
-import image3 from "@/images/McLaren_720S_Orange.jpg";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-
-import { BsArrowUpRight, BsCarFrontFill, BsCarFront } from "react-icons/bs";
-
+import { BsArrowUpRight, BsCarFront } from "react-icons/bs";
 import {
   Tooltip,
   TooltipContent,
@@ -21,51 +14,47 @@ import {
 } from "@/components/ui/tooltip";
 import Header from "@/components/Header";
 
-const sportscar = [
-  {
-    num: "01",
-    brand: "Nissan",
-    model: "Skyline R34 GT-R",
-    description:
-      "The Nissan Skyline R34 GT-R has a 2.6L twin-turbo inline-six with 276 hp, a 0-100 km/h time of 4.9 seconds, and a top speed of 250 km/h.",
-    stack: [{ name: "AWD" }, { name: "Car" }, { name: "Car" }],
-    image: image1,
-    live: "",
-    car: "",
-  },
-  {
-    num: "02",
-    brand: "Porsche",
-    model: "911 Carrera",
-    description:
-      "The Porsche 911 Carrera has a 3.0L twin-turbo flat-six engine with 379 hp. It accelerates from 0 to 100 km/h in 4.2 seconds and has a top speed of 293 km/h.",
-    stack: [{ name: "AWD" }, { name: "Car" }, { name: "Car" }],
-    image: image2,
-    live: "",
-    car: "",
-  },
-  {
-    num: "03",
-    brand: "McLaren",
-    model: "720S",
-    description:
-      "The McLaren 720S has a 4.0L twin-turbo V8 engine with 720 hp. It goes from 0 to 100 km/h in 2.9 seconds and has a top speed of 341 km/h.",
-    stack: [{ name: "RWD" }, { name: "Car" }, { name: "Car" }],
-    image: image3,
-    live: "",
-    car: "",
-  },
-];
+interface SportsCar {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  description: string;
+  speed: string;
+  drivetrain: string;
+  price: number;
+  image: string;
+}
 
 const SportsCars = () => {
-  const [car, setCar] = useState(sportscar[0]);
+  const [sportsCars, setSportsCars] = useState<SportsCar[]>([]);
+  const [currentCar, setCurrentCar] = useState<SportsCar | null>(null);
 
-  const handleSlideChange = (swiper) => {
-    // get current slide index
+  useEffect(() => {
+    const fetchSportsCars = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/sportsCars');
+        const data = await response.json();
+        setSportsCars(data.sportsCars);
+        if (data.sportsCars.length > 0) {
+          setCurrentCar(data.sportsCars[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching sports cars:', error);
+      }
+    };
+
+    fetchSportsCars();
+  }, []);
+
+  const handleSlideChange = (swiper: any) => {
     const currentIndex = swiper.activeIndex;
-    // update car state based on  current slide index
-    setCar(sportscar[currentIndex]);
+    setCurrentCar(sportsCars[currentIndex]);
   };
+
+  if (!currentCar) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -82,55 +71,41 @@ const SportsCars = () => {
           <div className="flex flex-col xl:flex-row xl:gap-[30px]">
             <div className="w-full xl:w-[50%] xl:h-[460px] flex flex-col xl:justify-between order-2 xl:order-none">
               <div className="flex flex-col gap-[30px] h-[50%]">
-                {/* outline num */}
                 <div className="text-8xl leading-none font-extrabold text-transparent text-outline">
-                  {car.num}
+                  {String(sportsCars.indexOf(currentCar) + 1).padStart(2, '0')}
                 </div>
-                {/* sports car brand */}
                 <h2 className="text-[42px] font-bold leading-none text-white group-hover:text-accent transition-all duration-500 capitalize">
-                  {car.brand} car
+                  {currentCar.brand} {currentCar.model}
                 </h2>
-                {/* sport car description */}
-                <p className="text-white/60">{car.description}</p>
-                {/* stack */}
-                <ul className="flex gap-4">
-                  {car.stack.map((item, index) => {
-                    return (
-                      <li key={index} className="text-xl text-accent">
-                        {item.name}
-                        {/* remove the last comma */}
-                        {index !== car.stack.length - 1 && ","}
-                      </li>
-                    );
-                  })}
+                <p className="text-white/60">{currentCar.description}</p>
+                <ul className="flex flex-wrap gap-4">
+                  <li className="text-xl text-accent">Year: {currentCar.year}</li>
+                  <li className="text-xl text-accent">Speed: {currentCar.speed}</li>
+                  <li className="text-xl text-accent">Drivetrain: {currentCar.drivetrain}</li>
+                  <li className="text-xl text-accent">Price: ${currentCar.price.toLocaleString()}</li>
                 </ul>
-                {/* border */}
                 <div className="border border-white/20"></div>
-                {/* buttons */}
                 <div className="flex items-center gap-4">
-                  {/* live car button */}
-                  <Link href={car.live}>
+                  <Link href={`/sportscars/${currentCar.id}`}>
                     <TooltipProvider delayDuration={100}>
                       <Tooltip>
                         <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
                           <BsArrowUpRight className="text-white text-3xl group-hover:text-accent" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Live car</p>
+                          <p>View Details</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </Link>
-                  {/* car car button */}
-                  <Link href={car.car}>
+                  <Link href={`/order/${currentCar.id}`}>
                     <TooltipProvider delayDuration={100}>
                       <Tooltip>
                         <TooltipTrigger className="w-[70px] h-[70px] rounded-full bg-white/5 flex justify-center items-center group">
                           <BsCarFront className="text-white text-3xl group-hover:text-accent" />
-                          <BsCarFrontFill className="text-white text-3xl group-hover:text-accent" />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>Sports Car</p>
+                          <p>Order Now</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -145,19 +120,17 @@ const SportsCars = () => {
                 className="xl:h-[520px] mb-12"
                 onSlideChange={handleSlideChange}
               >
-                {sportscar.map((car, index) => {
+                {sportsCars.map((car, index) => {
                   return (
                     <SwiperSlide key={index} className="w-full">
                       <div className="h-[460px] relative group flex justify-center items-center bg-pink-50/20">
-                        {/* overlay */}
                         <div className="absolute top-0 bottom-0 w-full h-full bg-black/10 z-10"></div>
-                        {/* image */}
                         <div className="relative w-[100%] h-[66%]">
                           <Image
-                            src={car.image}
+                            src={`http://localhost:8000/images/${car.image}`}
                             fill
                             className="object-cover"
-                            alt=""
+                            alt={`${car.brand} ${car.model}`}
                           />
                         </div>
                       </div>
