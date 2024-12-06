@@ -101,7 +101,7 @@ class UserWebController extends Controller
             $image = $request->file('image');
 
             $imageName = time() . "." . $image->getClientOriginalExtension();
-            $image->move('images', $imageName);
+            $image->move('images/users/', $imageName);
 
             $data['image'] = $imageName;
         } else {
@@ -185,7 +185,7 @@ class UserWebController extends Controller
             }
             $image = $request->file('image');
             $imageName = time() . "." . $image->getClientOriginalExtension();
-            $image->move('images/', $imageName);
+            $image->move('images/users/', $imageName);
             $data['image'] = $imageName;
         } else {
             $data['image'] = $user->getImage();
