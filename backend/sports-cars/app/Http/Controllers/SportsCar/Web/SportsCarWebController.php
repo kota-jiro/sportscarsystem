@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\SportsCar\Web;
 
-use App\Application\SportsCar\RegisterSportsCar;
 use App\Http\Controllers\Controller;
+use App\Application\SportsCar\RegisterSportsCar;
 use App\Infrastructure\Persistence\Eloquent\SportsCar\SportsCarModel;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
