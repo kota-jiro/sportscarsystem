@@ -43,7 +43,9 @@
                 <th>Speed</th>
                 <th>DriveTrain</th>
                 <th>Price</th>
-                <th>Actions</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th></th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -51,7 +53,7 @@
                 <tr>
                     <td>{{ $car['id'] }}</td>
                     <td>{{ $car['sportsCarId'] }}</td>
-                    <td><img src="{{ asset('images/cars/' . $car['image']) }}" class="card-img-top"
+                    <td><img src="{{ asset('images/' . $car['image']) }}" class="card-img-top"
                             alt="{{ $car['brand'] }} Image" style="height: 200px; object-fit: cover;"></td>
                     <td>{{ $car['brand'] }}</td>
                     <td>{{ $car['model'] }}</td>
@@ -60,6 +62,8 @@
                     <td>{{ $car['speed'] }}</td>
                     <td>{{ $car['drivetrain'] }}</td>
                     <td>{{ $car['price'] }}</td>
+                    <td>{{ $car['created_at'] }}</td>
+                    <td>{{ $car['updated_at'] }}</td>
                     <td>
                         <form action="{{ route('sportsCars.edit', $car['id']) }}" method="GET" style="display:inline;">
                             @csrf

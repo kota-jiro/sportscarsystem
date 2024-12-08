@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" class="form-control" id="phone" name="phone" disabled>
+            <input type="text" class="form-control" id="phone" name="phone" required>
         </div>
         <div class="form-group">
             <label for="address">Address</label>
@@ -34,7 +34,7 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" class="form-control" id="email" name="email" disabled>
+            <input type="text" class="form-control" id="email" name="email" required>
         </div>
         <div class="form-group">
             <label for="password">Password</label>

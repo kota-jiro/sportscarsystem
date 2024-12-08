@@ -20,6 +20,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('users.archive') }}">Archive Users</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('orders.index') }}">Orders Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('orders.showAll') }}">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('orders.archive') }}">Archive Orders</a>
+                </li>
             </ul>
         </div>
     </nav>
