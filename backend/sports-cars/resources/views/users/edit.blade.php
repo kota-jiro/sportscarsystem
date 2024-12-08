@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" name="phone" class="form-control" value="{{ $user->phone }}" required>
+            <input type="text" name="phone" class="form-control" value="{{ $user->phone }}" disabled>
         </div>
         <div class="form-group">
             <label for="address">Address</label>
@@ -35,7 +35,7 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" name="email" class="form-control" value="{{ $user->email }}" required>
+            <input type="text" name="email" class="form-control" value="{{ $user->email }}" disabled>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
