@@ -29,6 +29,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('orders.archive') }}">Archive Orders</a>
                 </li>
+                <li class="nav-item">
+                    <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </nav>
