@@ -1,13 +1,26 @@
 <?php
 
 /* use App\Http\Controllers\SportsCar\SportsCarController; //my old controller */
-use App\Http\Controllers\SportsCar\Web\SportsCarWebController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Web\AdminWebController;
 use App\Http\Controllers\User\Web\UserWebController;
 use App\Http\Controllers\Order\Web\OrderWebController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SportsCar\Web\SportsCarWebController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('admin')->group(function () {
+    // Public routes (no middleware)
+    Route::get('/login', [AdminWebController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminWebController::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [AdminWebController::class, 'logout'])->name('admin.logout');
+    
+    // Protected routes
+    Route::middleware([\App\Http\Middleware\AdminMiddleware::class])->group(function () {
+        Route::get('/dashboard', [AdminWebController::class, 'dashboard'])->name('admin.dashboard');
+    });
 });
 
 /* http://127.0.0.1:8000/web/sportsCars */
@@ -66,3 +79,4 @@ Route::get('/orders/archive', [OrderWebController::class, 'archive'])->name('ord
 Route::get('/orders/restore/{id}', [OrderWebController::class, 'restore'])->name('orders.restore'); // done its working
 Route::delete('/orders/permanentDelete/{id}', [OrderWebController::class, 'permanentDelete'])->name('orders.permanentDelete'); // done its working
 Route::put('/orders/status/{id}', [OrderWebController::class, 'updateStatus'])->name('orders.updateStatus'); // done its working
+

@@ -35,5 +35,5 @@ Route::put('order/update/{orderId}', [OrderAPIController::class,'updateOrder']);
 Route::delete('order/delete/{id}', [OrderAPIController::class,'deleteOrder']);
 Route::get('order/search', [OrderAPIController::class,'searchOrder']);
 Route::put('order/approve/{orderId}', [OrderAPIController::class,'approveOrder']);
-Route::get('order/approved', [OrderAPIController::class,'getApprovedOrders']);
-Route::get('order/pending', [OrderAPIController::class,'getPendingOrders']);
+Route::get('approved', [OrderAPIController::class,'getApprovedOrders']);
+Route::get('pending', [OrderAPIController::class,'getPendingOrders']);
