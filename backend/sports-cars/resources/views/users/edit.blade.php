@@ -34,8 +34,8 @@
             <input type="text" name="address" class="form-control" value="{{ $user->address }}" required>
         </div>
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" name="email" class="form-control" value="{{ $user->email }}" disabled>
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" value="{{ $user->username }}" disabled>
         </div>
         <div class="form-group">
             <label for="password">Password</label>

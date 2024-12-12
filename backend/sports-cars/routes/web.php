@@ -16,7 +16,10 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminWebController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [AdminWebController::class, 'login'])->name('admin.login.submit');
     Route::post('/logout', [AdminWebController::class, 'logout'])->name('admin.logout');
-    
+    Route::get('/register', [AdminWebController::class, 'showRegisterForm'])->name('admin.register');
+    Route::post('/register', [AdminWebController::class, 'register'])->name('admin.register.submit');
+
+
     // Protected routes
     Route::middleware([\App\Http\Middleware\AdminMiddleware::class])->group(function () {
         Route::get('/dashboard', [AdminWebController::class, 'dashboard'])->name('admin.dashboard');

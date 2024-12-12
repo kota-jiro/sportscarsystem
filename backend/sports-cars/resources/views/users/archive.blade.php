@@ -14,13 +14,13 @@
     @endif
 
     <form method="GET" action="{{ route('users.archive') }}" class="mb-3">
-        <p>Total Archived Emails: {{ $totalEmails }}</p>
+        <p>Total Archived Roles: {{ $totalRoles }}</p>
         <div class="form-group">
-            <label for="email">Select Email:</label>
-            <select name="email" id="email" class="form-control" onchange="this.form.submit()">
-                <option value="">All Emails</option>
-                @foreach($emails as $email)
-                    <option value="{{ $email }}" {{ $emailFilter == $email ? 'selected' : '' }}>{{ $email }}</option>
+            <label for="roleId">Select Role:</label>
+            <select name="roleId" id="roleId" class="form-control" onchange="this.form.submit()">
+                <option value="">All Roles</option>
+                @foreach($roles as $role)
+                    <option value="{{ $role }}" {{ $roleFilter == $role ? 'selected' : '' }}>{{ $role }}</option>
                 @endforeach
             </select>
         </div>
@@ -33,12 +33,13 @@
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id</th>
                     <th class="">UserId</th>
+                    <th class="">RoleId</th>
                     <th class="">Image</th>
                     <th class="">First Name</th>
                     <th class="">Last Name</th>
                     <th class="">Phone</th>
                     <th class="">Address</th>
-                    <th class="">Email</th>
+                    <th class="">Username</th>
                     <th class="">Password</th>
                     <th class="">Created At</th>
                     <th class="">Updated At</th>
@@ -51,6 +52,7 @@
                         <tr>
                             <td class="">{{ $user->id }}</td>
                             <td class="">{{ $user->userId }}</td>
+                            <td class="">{{ $user->roleId }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <img src="{{ asset('images/users/' . $user->image) }}" alt="User Image"
                                     class="h-10 w-10 rounded-full object-cover">
@@ -59,7 +61,7 @@
                             <td class="">{{ $user->lastName }}</td>
                             <td class="">{{ $user->phone }}</td>
                             <td class="">{{ $user->address }}</td>
-                            <td class="">{{ $user->email }}</td>
+                            <td class="">{{ $user->username }}</td>
                             <td class="">{{ $user->password }}</td>
                             <td class="">{{ $user->created_at }}</td>
                             <td class="">{{ $user->updated_at }}</td>

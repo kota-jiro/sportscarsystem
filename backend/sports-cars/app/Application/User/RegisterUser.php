@@ -22,8 +22,8 @@ class RegisterUser
     public function findByUserId(string $userId){
         return $this->userRepository->findByUserId($userId);
     }
-    public function findByEmail(string $email){
-        return $this->userRepository->findByEmail($email);
+    public function findByUsername(string $username){
+        return $this->userRepository->findByUsername($username);
     }
     public function findByPassword(string $password){
         return $this->userRepository->findByPassword($password);
@@ -32,14 +32,15 @@ class RegisterUser
         string $userId,
         string $firstName,
         string $lastName,
-        string $phone,
-        string $address,
-        string $email,
+        ?string $phone,
+        ?string $address,
+        string $username,
         string $password,
         string $image,
         string $created_at,
         string $updated_at,
         bool $isDeleted = false,
+        int $roleId = 0,
     ){
         $data = new User(
             null,
@@ -48,12 +49,13 @@ class RegisterUser
             $lastName,
             $phone,
             $address,
-            $email,
+            $username,
             $password,
             $image,
             $created_at,
             $updated_at,
             $isDeleted,
+            $roleId,
         );
         $this->userRepository->createUser($data);
     }
@@ -61,9 +63,9 @@ class RegisterUser
         string $userId,
         string $firstName,
         string $lastName,
-        string $phone,
-        string $address,
-        string $email,
+        ?string $phone,
+        ?string $address,
+        string $username,
         string $password,
         string $image,
         string $updated_at,
@@ -81,7 +83,7 @@ class RegisterUser
             $lastName,
             $phone,
             $address,
-            $email,
+            $username,
             $password,
             $image,
             null,
