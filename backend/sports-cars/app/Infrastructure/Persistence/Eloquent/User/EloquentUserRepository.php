@@ -21,7 +21,7 @@ class EloquentUserRepository implements UserRepository {
             $user->lastName,
             $user->phone,
             $user->address,
-            $user->email,
+            $user->username,
             $user->password,
             $user->image,
             $user->created_at,
@@ -40,15 +40,15 @@ class EloquentUserRepository implements UserRepository {
             $user->lastName,
             $user->phone,
             $user->address,
-            $user->email,
+            $user->username,
             $user->password,
             $user->image,
             $user->created_at,
             $user->updated_at,
         );
     }
-    public function findByEmail(string $email): array {
-        return UserModel::where('email', $email)->get()->toArray();
+    public function findByUsername(string $username): array {
+        return UserModel::where('username', $username)->get()->toArray();
     }
     public function findByPassword(string $password): array {
         return UserModel::where('password', $password)->get()->toArray();
@@ -62,11 +62,12 @@ class EloquentUserRepository implements UserRepository {
             'lastName' => $user->getLastName(),
             'phone' => $user->getPhone(),
             'address' => $user->getAddress(),
-            'email' => $user->getEmail(),
+            'username' => $user->getUsername(),
             'password' => $user->getPassword(),
             'image' => $user->getImage(),
             'created_at' => $user->getCreatedAt(),
             'updated_at' => $user->getUpdatedAt(),
+            'roleId' => $user->getRoleId(),
         ]);
         $userModel->save();
     }
@@ -78,10 +79,11 @@ class EloquentUserRepository implements UserRepository {
                 'lastName' => $user->getLastName(),
                 'phone' => $user->getPhone(),
                 'address' => $user->getAddress(),
-                'email' => $user->getEmail(),
+                'username' => $user->getUsername(),
                 'password' => $user->getPassword(),
                 'image' => $user->getImage(),
                 'updated_at' => $user->getUpdatedAt(),
+                'roleId' => $user->getRoleId(),
             ]);
         }
     }
@@ -107,7 +109,7 @@ class EloquentUserRepository implements UserRepository {
         ->orWhere('lastName', $search)
         ->orWhere('phone', $search)
         ->orWhere('address', $search)
-        ->orWhere('email', $search)
+        ->orWhere('username', $search)
         ->first();
 
         $related_match = UserModel::where('userId', '!=', $exact_match->userId)->where(
@@ -117,7 +119,7 @@ class EloquentUserRepository implements UserRepository {
                 ->orWhere('lastName', 'LIKE', "%{$search}%")
                 ->orWhere('phone', 'LIKE', "%{$search}%")
                 ->orWhere('address', 'LIKE', "%{$search}%")
-                ->orWhere('email', 'LIKE', "%{$search}%");
+                ->orWhere('username', 'LIKE', "%{$search}%");
             }
         )->get();
 
@@ -129,7 +131,7 @@ class EloquentUserRepository implements UserRepository {
                 $exact_match->lastName,
                 $exact_match->phone,
                 $exact_match->address,
-                $exact_match->email,
+                $exact_match->username,
                 $exact_match->password,
                 $exact_match->image,
                 $exact_match->created_at,
@@ -143,7 +145,7 @@ class EloquentUserRepository implements UserRepository {
                     $user->lastName,
                     $user->phone,
                     $user->address,
-                    $user->email,
+                    $user->username,
                     $user->password,
                     $user->image,
                     $user->created_at,
@@ -151,5 +153,5 @@ class EloquentUserRepository implements UserRepository {
                 );
             })->toArray()
         ];
-    }
+    }  
 }

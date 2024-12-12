@@ -15,11 +15,12 @@ class UserModel extends Model {
         'lastName',
         'phone',
         'address',
-        'email',
+        'username',
         'password',
         'image',
         'created_at',
         'updated_at',
+        'roleId',
         'isDeleted',
     ];
 }
