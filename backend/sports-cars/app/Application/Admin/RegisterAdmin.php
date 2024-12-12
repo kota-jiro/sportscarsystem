@@ -21,9 +21,9 @@ class RegisterAdmin
     {
         return $this->adminRepository->findById($id);
     }
-    public function findByEmail(string $email): ?Admin
+    public function findByUsername(string $username): ?Admin
     {
-        return $this->adminRepository->findByEmail($email);
+        return $this->adminRepository->findByUsername($username);
     }
     public function register(Admin $admin): Admin
     {
@@ -37,9 +37,9 @@ class RegisterAdmin
     {
         $this->adminRepository->delete($id);
     }
-    public function login(string $email, string $password): ?Admin
+    public function login(string $username, string $password): ?Admin
     {
-        return $this->adminRepository->login($email, $password);
+        return $this->adminRepository->login($username, $password);
     }
     public function addApiToken(int $id, string $api_token): void
     {
@@ -56,5 +56,9 @@ class RegisterAdmin
     public function password(string $password): ?Admin
     {
         return $this->adminRepository->findByPassword($password);
+    }
+    public function findByUserId(string $userId): ?Admin
+    {
+        return $this->adminRepository->findByUserId($userId);
     }
 }
