@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SportsCar\API\SportsCarAPIController;
 use App\Http\Controllers\User\API\UserAPIController;
 use App\Http\Controllers\Order\API\OrderAPIController;
-
+use App\Http\Controllers\Admin\API\AdminAPIController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -26,6 +26,7 @@ Route::post('/user/login', [UserAPIController::class, 'login']); // done its wor
 Route::post('/user/register', [UserAPIController::class, 'addUser']); // done its working
 Route::put('/user/update/{userId}', [UserAPIController::class, 'updateUser']); // done its working
 Route::get('/user/search', [UserAPIController::class, 'searchUser']); // undone
+Route::get('/stats', [UserAPIController::class, 'getStats']);
 
 /* http://127.0.0.1:8000/api/orders */
 Route::get('orders', [OrderAPIController::class,'getAll']); // done its working
@@ -37,3 +38,11 @@ Route::get('order/search', [OrderAPIController::class,'searchOrder']);
 Route::put('order/approve/{orderId}', [OrderAPIController::class,'approveOrder']);
 Route::get('approved', [OrderAPIController::class,'getApprovedOrders']);
 Route::get('pending', [OrderAPIController::class,'getPendingOrders']);
+
+/* http://127.0.0.1:8000/api/admins */
+Route::get('/admins', [AdminAPIController::class, 'getAll']); // done its working
+Route::get('/admin/{adminId}', [AdminAPIController::class, 'getByAdminId']); // done its working
+Route::post('/admin/register', [AdminAPIController::class, 'register']); // done its working
+Route::post('/admin/login', [AdminAPIController::class, 'login']); // done its working
+Route::put('/admin/update/{adminId}', [AdminAPIController::class, 'updateAdmin']); // done its working
+Route::get('/admin/search', [AdminAPIController::class, 'searchAdmin']); // undone

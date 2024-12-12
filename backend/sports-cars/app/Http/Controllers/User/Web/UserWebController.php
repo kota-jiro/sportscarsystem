@@ -26,9 +26,9 @@ class UserWebController extends Controller
         return substr(bin2hex(random_bytes($length / 2)), 0, $length);
     }
     /**
-     * generate unique sports car id
+     * generate unique user id
      */
-    private function generateUniqueSportsCarID(): string
+    private function generateUniqueUserID(): string
     {
         do {
             $userId = $this->generateRandomAlphanumericID(15);
@@ -54,18 +54,18 @@ class UserWebController extends Controller
      */
     public function index(Request $request)
     {
-        $emailFilter = $request->input('email');
+        $roleFilter = $request->input('roleId');
         $query = UserModel::where('isDeleted', false);
 
-        if ($emailFilter) {
-            $query->where('email', $emailFilter);
+        if ($roleFilter) {
+            $query->where('roleId', $roleFilter);
         }
 
         $users = $query->get();
         $userCount = $users->count();
-        $totalEmails = UserModel::where('isDeleted', false)->distinct('email')->count();
-        $emails = UserModel::where('isDeleted', false)->distinct('email')->pluck('email');
-        return view('users.index', compact('users', 'userCount', 'totalEmails', 'emails', 'emailFilter'));
+        $totalRoles = UserModel::where('isDeleted', false)->distinct('roleId')->count();
+        $roles = UserModel::where('isDeleted', false)->distinct('roleId')->pluck('roleId');
+        return view('users.index', compact('users', 'userCount', 'totalRoles', 'roles', 'roleFilter'));
     }
     /**
      * show the form for creating a new user.
@@ -83,12 +83,13 @@ class UserWebController extends Controller
         $validate = Validator::make($data, [
             'firstName' => 'required|string|max:25',
             'lastName' => 'required|string|max:25',
-            'phone' => 'required|string|digits:11|unique:user,phone',
-            'address' => 'required|string|max:255',
-            'email' => 'required|email|unique:user,email',
+            'phone' => 'nullable|string|max:11',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|email|unique:user,email',
             'password' => 'required|string|min:8|max:20',
             'confirmPassword' => 'required|string|min:8|max:20|same:password',
             'image' => 'nullable',
+            'roleId' => 'nullable|integer|in:0,1'
         ], [
             'phone' => 'The phone number must be exactly 11 digits.',
         ]);
@@ -96,7 +97,7 @@ class UserWebController extends Controller
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput();
         }
-        $userId = $this->generateUniqueSportsCarID();
+        $userId = $this->generateUniqueUserID();
         if ($request->hasFile('image')) {
             $image = $request->file('image');
 
@@ -167,10 +168,11 @@ class UserWebController extends Controller
         $validate = Validator::make($data, [
             'firstName' => 'required|string|max:25',
             'lastName' => 'required|string|max:25',
-            'address' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
             'password' => 'required|string|min:8|max:20',
             'confirmPassword' => 'required|string|min:8|max:20|same:password',
             'image' => 'nullable',
+            'roleId' => 'nullable|integer|in:0,1'
         ], [
             'phone' => 'The phone number must be exactly 11 digits.',
         ]);
@@ -197,7 +199,7 @@ class UserWebController extends Controller
             $request->lastName,
             $user->getPhone(),
             $request->address,
-            $user->getEmail(),
+            $user->getUsername(),
             $request->password,
             $data['image'],
             Carbon::now()->toDateTimeString()
@@ -218,19 +220,19 @@ class UserWebController extends Controller
      */
     public function archive(Request $request)
     {
-        $emailFilter = $request->input('email');
+        $roleFilter = $request->input('roleId');
         $query = UserModel::where('isDeleted', true);
 
-        if ($emailFilter) {
-            $query->where('email', $emailFilter);
+        if ($roleFilter) {
+            $query->where('roleId', $roleFilter);
         }
 
         $deletedUsers = $query->get();
         $totalArchived = $deletedUsers->count();
-        $totalEmails = UserModel::where('isDeleted', true)->distinct('email')->count();
-        $emails = UserModel::where('isDeleted', true)->distinct('email')->pluck('email');
+        $totalRoles = UserModel::where('isDeleted', true)->distinct('roleId')->count();
+        $roles = UserModel::where('isDeleted', true)->distinct('roleId')->pluck('roleId');
 
-        return view('users.archive', compact('deletedUsers', 'totalArchived', 'totalEmails', 'emails', 'emailFilter'));
+        return view('users.archive', compact('deletedUsers', 'totalArchived', 'totalRoles', 'roles', 'roleFilter'));
     }
     /**
      * restore the specified user from archive.
@@ -261,5 +263,32 @@ class UserWebController extends Controller
         }
 
         return redirect()->route('users.archive')->with('success', 'User permanently deleted successfully');
+    }
+    public function showLoginForm()
+    {
+        return view('users.login.userlogin');
+    }
+
+    public function login(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+        $credentials = $request->only('email', 'password');
+        $user = UserModel::where('email', $credentials['email'])->first();
+
+        if (!$user || $user->password !== $credentials['password']) {
+            return redirect()->back()->with('error', 'Invalid email or password')->withInput();
+        }
+
+        session(['user' => $user]);
+        
+        return redirect()->route('sportsCars.index');
     }
 }

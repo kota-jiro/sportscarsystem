@@ -17,13 +17,13 @@
     @endif
 
     <form method="GET" action="{{ route('users.index') }}" class="mb-3">
-        <p>Total Emails: {{ $totalEmails }}</p>
+        <p>Total Roles: {{ $totalRoles }}</p>
         <div class="form-group">
-            <label for="email">Select Email:</label>
-            <select name="email" id="email" class="form-control" onchange="this.form.submit()">
-                <option value="">All Emails</option>
-                @foreach($emails as $email)
-                    <option value="{{ $email }}" {{ $emailFilter == $email ? 'selected' : '' }}>{{ $email }}</option>
+            <label for="roleId">Select Role:</label>
+            <select name="roleId" id="roleId" class="form-control" onchange="this.form.submit()">
+                <option value="">All Roles</option>
+                @foreach($roles as $role)
+                    <option value="{{ $role }}" {{ $roleFilter == $role ? 'selected' : '' }}>{{ $role }}</option>
                 @endforeach
             </select>
         </div>
@@ -35,12 +35,13 @@
             <tr>
                 <th>Id</th>
                 <th>UserId</th>
+                <th>RoleId</th>
                 <th>Image</th>
                 <th>FirstName</th>
                 <th>LastName</th>
                 <th>Phone</th>
                 <th>Address</th>
-                <th>Email</th>
+                <th>Username</th>
                 <th>Password</th>
                 <th>CreatedAt</th>
                 <th>UpdatedAt</th>
@@ -52,13 +53,14 @@
                 <tr>
                     <td>{{ $user['id'] }}</td>
                     <td>{{ $user['userId'] }}</td>
+                    <td>{{ $user['roleId'] }}</td>
                     <td><img src="{{ asset('images/users/' . $user['image']) }}" class="card-img-top"
                             alt="{{ $user['firstName'] }} Image" style="height: 200px; object-fit: cover;"></td>
                     <td>{{ $user['firstName'] }}</td>
                     <td>{{ $user['lastName'] }}</td>
                     <td>{{ $user['phone'] }}</td>
                     <td>{{ $user['address'] }}</td>
-                    <td>{{ $user['email'] }}</td>
+                    <td>{{ $user['username'] }}</td>
                     <td>{{ $user['password'] }}</td>
                     <td>{{ $user['created_at'] }}</td>
                     <td>{{ $user['updated_at'] }}</td>

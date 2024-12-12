@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('address', 255);
             $table->string('orderedImage', 255);
             $table->string('status', 50);
+            $table->string('orderedPrice', 50);
+            $table->string('orderedPaymentMethod', 50);
             $table->string('created_at')->nullable();
             $table->string('updated_at')->nullable();
             $table->boolean('isDeleted')->default(false);

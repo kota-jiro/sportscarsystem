@@ -18,12 +18,13 @@ return new class extends Migration
             $table->string('lastName', 50)->nullable();
             $table->string('phone', 11)->nullable();
             $table->string('address', 255)->nullable();
-            $table->string('email', 50)->unique();
-            $table->string('password', 25)->nullable();
+            $table->string('username', 50)->nullable();
+            $table->string('password', 255)->nullable();
             $table->string('image')->nullable();
             $table->string('created_at')->nullable();
             $table->string('updated_at')->nullable();
             $table->boolean('isDeleted')->default(false);
+            $table->string('roleId', 15)->nullable();
         });
     }
 
