@@ -4,7 +4,6 @@ namespace App\Infrastructure\Persistence\Eloquent\Admin;
 
 use App\Domain\Admin\AdminRepository;
 use App\Domain\Admin\Admin;
-
 use App\Infrastructure\Persistence\Eloquent\Admin\AdminModel;
 
 class EloquentAdminRepository implements AdminRepository
@@ -21,24 +20,26 @@ class EloquentAdminRepository implements AdminRepository
         }
         return new Admin(
             $admin->id, 
-            $admin->name, 
-            $admin->email, 
+            $admin->firstName, 
+            $admin->lastName, 
+            $admin->username, 
             $admin->password, 
             $admin->api_token, 
             $admin->created_at, 
             $admin->updated_at
         );
     }
-    public function findByEmail(string $email): ?Admin
+    public function findByUsername(string $username): ?Admin
     {
-        $admin = AdminModel::where('email', $email)->first();
+        $admin = AdminModel::where('username', $username)->first();
         if (! $admin) {
             return null;
         }
         return new Admin(
             $admin->id, 
-            $admin->name, 
-            $admin->email, 
+            $admin->firstName, 
+            $admin->lastName, 
+            $admin->username, 
             $admin->password, 
             $admin->api_token, 
             $admin->created_at, 
@@ -48,16 +49,18 @@ class EloquentAdminRepository implements AdminRepository
     public function register(Admin $admin): Admin
     {
         $adminModel = new AdminModel();
-        $adminModel->name = $admin->getName();
-        $adminModel->email = $admin->getEmail();
+        $adminModel->firstName = $admin->getFirstName();
+        $adminModel->lastName = $admin->getLastName();
+        $adminModel->username = $admin->getUsername();
         $adminModel->password = $admin->getPassword();
         $adminModel->save();
         
         $token = $adminModel->createToken('admin_token')->plainTextToken;
         return new Admin(
             $adminModel->id, 
-            $adminModel->name, 
-            $adminModel->email, 
+            $adminModel->firstName, 
+            $adminModel->lastName, 
+            $adminModel->username, 
             $adminModel->password, 
             $token, 
             $adminModel->created_at, 
@@ -67,8 +70,10 @@ class EloquentAdminRepository implements AdminRepository
     public function update(Admin $admin): Admin
     {
         $adminModel = AdminModel::find($admin->getId());
-        $adminModel->name = $admin->getName();
-        $adminModel->email = $admin->getEmail();
+        $adminModel->firstName = $admin->getFirstName();
+        $adminModel->lastName = $admin->getLastName();
+        $adminModel->username = $admin->getUsername();
+        $adminModel->password = $admin->getPassword();
         $adminModel->save();
         return $admin;
     }
@@ -76,17 +81,18 @@ class EloquentAdminRepository implements AdminRepository
     {
         AdminModel::destroy($id);
     }
-    public function login(string $email, string $password): ?Admin
+    public function login(string $username, string $password): ?Admin
     {
-        $admin = AdminModel::where('email', $email)->where('password', $password)->first();
+        $admin = AdminModel::where('username', $username)->where('password', $password)->first();
         if (! $admin) {
             return null;
         }
         $token = $admin->createToken('admin_token')->plainTextToken;
         return new Admin(
             $admin->id, 
-            $admin->name, 
-            $admin->email, 
+            $admin->firstName, 
+            $admin->lastName, 
+            $admin->username, 
             $admin->password, 
             $token, 
             $admin->created_at, 
@@ -106,7 +112,7 @@ class EloquentAdminRepository implements AdminRepository
         if (! $admin) {
             return null;
         }
-        return new Admin($admin->id, $admin->name, $admin->email, $admin->password, $admin->api_token, $admin->created_at, $admin->updated_at);
+        return new Admin($admin->id, $admin->firstName, $admin->lastName, $admin->username, $admin->password, $admin->api_token, $admin->created_at, $admin->updated_at);
     }
     public function findByPassword(string $password): ?Admin
     {
@@ -114,6 +120,14 @@ class EloquentAdminRepository implements AdminRepository
         if (! $admin) {
             return null;
         }
-        return new Admin($admin->id, $admin->name, $admin->email, $admin->password, $admin->api_token, $admin->created_at, $admin->updated_at);
+        return new Admin($admin->id, $admin->firstName, $admin->lastName, $admin->username, $admin->password, $admin->api_token, $admin->created_at, $admin->updated_at);
+    }
+    public function findByUserId(string $userId): ?Admin
+    {
+        $admin = AdminModel::where('userId', $userId)->first();
+        if (! $admin) {
+            return null;
+        }
+        return new Admin($admin->id, $admin->firstName, $admin->lastName, $admin->username, $admin->password, $admin->api_token, $admin->created_at, $admin->updated_at);
     }
 }
