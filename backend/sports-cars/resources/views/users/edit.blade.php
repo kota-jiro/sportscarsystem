@@ -19,31 +19,19 @@
         @method('PUT')
         <div class="form-group">
             <label for="fname">First Name</label>
-            <input type="text" name="firstName" class="form-control" value="{{ $user->firstName }}" required>
+            <input type="text" name="firstName" class="form-control" value="{{ $user->firstName }}" >
         </div>
         <div class="form-group">
             <label for="lname">Last Name</label>
-            <input type="text" name="lastName" class="form-control" value="{{ $user->lastName }}" required>
+            <input type="text" name="lastName" class="form-control" value="{{ $user->lastName }}" >
         </div>
         <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" name="phone" class="form-control" value="{{ $user->phone }}" disabled>
+            <input type="text" name="phone" class="form-control" value="{{ $user->phone }}" >
         </div>
         <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" name="address" class="form-control" value="{{ $user->address }}" required>
-        </div>
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" name="username" class="form-control" value="{{ $user->username }}" disabled>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="text" name="password" class="form-control" value="{{ $user->password }}" required>
-        </div>
-        <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="number" name="confirmPassword" class="form-control" value="{{ $user->confirmPassword }}" required>
+            <input type="text" name="address" class="form-control" value="{{ $user->address }}" >
         </div>
         <div class="form-group">
             <label for="image">Image:</label>
