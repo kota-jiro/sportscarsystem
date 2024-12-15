@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class UserWebController extends Controller
 {
@@ -159,53 +160,62 @@ class UserWebController extends Controller
      */
     public function update(Request $request, $userId)
     {
-        $user = $this->registerUser->findByUserId($userId);
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found');
-        }
+        try {
+            $user = UserModel::findOrFail($userId);
+            
+            $validate = Validator::make($request->all(), [
+                'firstName' => 'nullable|string|max:25',
+                'lastName' => 'nullable|string|max:25',
+                'phone' => 'nullable|string|max:11',
+                'address' => 'nullable|string|max:255',
+                'password' => 'nullable|string|min:8|max:20',
+                'confirmPassword' => 'nullable|string|min:8|max:20|same:password',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
 
-        $data = $request->all();
-        $validate = Validator::make($data, [
-            'firstName' => 'required|string|max:25',
-            'lastName' => 'required|string|max:25',
-            'address' => 'nullable|string|max:255',
-            'password' => 'required|string|min:8|max:20',
-            'confirmPassword' => 'required|string|min:8|max:20|same:password',
-            'image' => 'nullable',
-            'roleId' => 'nullable|integer|in:0,1'
-        ], [
-            'phone' => 'The phone number must be exactly 11 digits.',
-        ]);
-
-        if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate)->withInput();
-        }
-
-        if ($request->hasFile('image')) {
-            if ($user->getImage() !== 'default.jpg') {
-                File::delete('images/' . $user->getImage());
+            if ($validate->fails()) {
+                return redirect()->back()
+                    ->withErrors($validate)
+                    ->withInput();
             }
-            $image = $request->file('image');
-            $imageName = time() . "." . $image->getClientOriginalExtension();
-            $image->move('images/users/', $imageName);
-            $data['image'] = $imageName;
-        } else {
-            $data['image'] = $user->getImage();
+
+            $imageUrl = $user->image;
+            if ($request->hasFile('image')) {
+                // Delete old image if it exists and is not default
+                if ($user->image && $user->image !== 'default.jpg') {
+                    File::delete(public_path('images/' . $user->image));
+                }
+                
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/users/'), $imageName);
+                $imageUrl = $imageName;
+            }
+
+            $hashedPassword = $request->password 
+                ? Hash::make($request->password)
+                : $user->password;
+
+            $this->registerUser->updateUser(
+                $userId,
+                $request->firstName ?? $user->firstName,
+                $request->lastName ?? $user->lastName,
+                $request->phone ?? $user->phone,
+                $request->address ?? $user->address,
+                $user->username,
+                $hashedPassword,
+                $imageUrl,
+                Carbon::now()->toDateTimeString()
+            );
+
+            return redirect()->route('users.index')
+                ->with('success', 'User updated successfully');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Failed to update user: ' . $e->getMessage())
+                ->withInput();
         }
-
-        $this->registerUser->updateUser(
-            $userId,
-            $request->firstName,
-            $request->lastName,
-            $user->getPhone(),
-            $request->address,
-            $user->getUsername(),
-            $request->password,
-            $data['image'],
-            Carbon::now()->toDateTimeString()
-        );
-
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
     /**
      * remove the specified user from storage.
@@ -290,5 +300,75 @@ class UserWebController extends Controller
         session(['user' => $user]);
         
         return redirect()->route('sportsCars.index');
+    }
+
+    public function adminProfile()
+    {
+        $user = UserModel::where('roleId', 1)->first();
+        if (!$user) {
+            return redirect()->route('dashboard')->with('error', 'Admin profile not found');
+        }
+        return view('admin.profile', compact('user'));
+    }
+
+    public function updateAdminProfile(Request $request, $userId)
+    {
+        try {
+            $user = UserModel::where('roleId', 1)->findOrFail($userId);
+            
+            $validate = Validator::make($request->all(), [
+                'firstName' => 'nullable|string|max:25',
+                'lastName' => 'nullable|string|max:25',
+                'phone' => 'nullable|string|max:11',
+                'address' => 'nullable|string|max:255',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if ($validate->fails()) {
+                return redirect()->back()
+                    ->withErrors($validate)
+                    ->withInput();
+            }
+
+            $imageUrl = $user->image;
+            if ($request->hasFile('image')) {
+                // Delete old image if it exists and is not default
+                if ($user->image && $user->image !== 'default.jpg') {
+                    File::delete('images/users/' . $user->image);
+                }
+                
+                $image = $request->file('image');
+                $imageName = time() . "." . $image->getClientOriginalExtension();
+                $image->move('images/users/', $imageName);
+                $imageUrl = $imageName;
+            }
+
+            $this->registerUser->updateUser(
+                $userId,
+                $request->firstName,
+                $request->lastName,
+                $request->phone,
+                $request->address,
+                $user->username,
+                $user->password,
+                $imageUrl,
+                Carbon::now()->toDateTimeString()
+            );
+
+            return redirect()->back()->with('success', 'Profile updated successfully');
+            
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Failed to update profile: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+    public function editAdminProfile($userId)
+    {
+        $user = UserModel::where('roleId', 1)->findOrFail($userId);
+        if (!$user) {
+            return redirect()->route('user.profile')->with('error', 'User not found');
+        }
+        return view('user.editprofile', compact('user'));
     }
 }

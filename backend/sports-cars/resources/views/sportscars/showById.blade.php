@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-6">
                         <p><strong>Drivetrain:</strong> {{ $sportsCars->drivetrain }}</p>
-                        <p><strong>Price:</strong> ${{ number_format($sportsCars->price, 2) }}</p>
+                        <p><strong>Price:</strong> ₱{{ number_format($sportsCars->price, 2) }}</p>
                     </div>
                 </div>
             </div>

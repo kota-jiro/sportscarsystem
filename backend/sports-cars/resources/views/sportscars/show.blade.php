@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <p class="mb-1">Drivetrain: {{ $car['drivetrain'] }}</p>
-                                    <p class="mb-1">Price: ${{ number_format($car['price'], 2) }}</p>
+                                    <p class="mb-1">Price: ₱{{ number_format($car['price'], 2) }}</p>
                                     <a href="{{ route('sportsCars.show', $car['id']) }}" class="btn btn-primary mt-2">View Details</a>
                                     <a href="{{ route('orders.create') }}" class="btn btn-primary mt-2">Order Now</a>
                                 </div>

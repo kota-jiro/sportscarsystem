@@ -9,11 +9,12 @@ class User {
     private ?string $lastName;
     private ?string $phone;
     private ?string $address;
-    private ?string $email;
+    private ?string $username;
     private ?string $password;
     private ?string $image;
     private ?string $created_at;
     private ?string $updated_at;
+    private ?int $roleId;
     private ?bool $isDeleted;
 
     public function __construct(
@@ -23,12 +24,13 @@ class User {
         ?string $lastName = null,
         ?string $phone = null,
         ?string $address = null,
-        ?string $email = null,
+        ?string $username = null,
         ?string $password = null,
         ?string $image = null,
         ?string $created_at = null,
         ?string $updated_at = null,
-        ?bool $isDeleted = false
+        ?int $roleId = 0,
+        ?bool $isDeleted = false,
     ){
         $this->id = $id;
         $this->userId = $userId;
@@ -36,11 +38,12 @@ class User {
         $this->lastName = $lastName;
         $this->phone = $phone;
         $this->address = $address;
-        $this->email = $email;
+        $this->username = $username;
         $this->password = $password;
         $this->image = $image;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
+        $this->roleId = $roleId;
         $this->isDeleted = $isDeleted;
     }
     public function toArray() {
@@ -51,11 +54,12 @@ class User {
             'lastName' => $this->lastName,
             'phone' => $this->phone,
             'address' => $this->address,
-            'email' => $this->email,
+            'username' => $this->username,
             'password' => $this->password,
             'image' => $this->image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'roleId' => $this->roleId,
             'isDeleted' => $this->isDeleted,
         ];
     }
@@ -77,8 +81,8 @@ class User {
     public function getAddress() {
         return $this->address;
     }
-    public function getEmail() {
-        return $this->email;
+    public function getUsername() {
+        return $this->username;
     }
     public function getPassword() {
         return $this->password;
@@ -91,6 +95,9 @@ class User {
     }
     public function getUpdatedAt() {
         return $this->updated_at;
+    }
+    public function getRoleId(): ?int {
+        return $this->roleId;
     }
     public function getIsDeleted() {
         return $this->isDeleted;
