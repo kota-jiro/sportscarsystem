@@ -7,7 +7,7 @@ interface UserRepository
     public function findAll(): array;
     public function findById(int $id): ?User;
     public function findByUserId(string $userId): ?User;
-    public function findByEmail(string $email): array;
+    public function findByUsername(string $username): array;
     public function findByPassword(string $password): array;
     public function createUser(User $user): void;
     public function updateUser(User $user): void;
