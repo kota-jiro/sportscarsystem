@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\Web\AdminWebController;
 use App\Http\Controllers\User\Web\UserWebController;
 use App\Http\Controllers\Order\Web\OrderWebController;
 use App\Http\Controllers\SportsCar\Web\SportsCarWebController;
-
+use App\Http\Controllers\RentCar\Web\RentCarWebController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -68,7 +68,9 @@ Route::delete('/users/{id}', [UserWebController::class, 'destroy'])->name('users
 Route::get('/users/archive', [UserWebController::class, 'archive'])->name('users.archive'); // done its working
 Route::get('/users/restore/{id}', [UserWebController::class, 'restore'])->name('users.restore'); // done its working
 Route::delete('/users/permanentDelete/{id}', [UserWebController::class, 'permanentDelete'])->name('users.permanentDelete'); // done its working
-
+Route::get('/user/profile', [UserWebController::class, 'adminProfile'])->name('admin.profile'); // done its working
+Route::get('/user/editprofile/{userId}', [UserWebController::class, 'editAdminProfile'])->name('admin.editprofile');
+Route::put('/user/profile/{userId}', [UserWebController::class, 'updateAdminProfile'])->name('admin.profile.update');
 /* http://127.0.0.1:8000/web/orders */
 Route::get('/orders', [OrderWebController::class, 'index'])->name('orders.index'); // done its working
 Route::get('/orders/create', [OrderWebController::class, 'create'])->name('orders.create'); // done its working
@@ -82,4 +84,31 @@ Route::get('/orders/archive', [OrderWebController::class, 'archive'])->name('ord
 Route::get('/orders/restore/{id}', [OrderWebController::class, 'restore'])->name('orders.restore'); // done its working
 Route::delete('/orders/permanentDelete/{id}', [OrderWebController::class, 'permanentDelete'])->name('orders.permanentDelete'); // done its working
 Route::put('/orders/status/{id}', [OrderWebController::class, 'updateStatus'])->name('orders.updateStatus'); // done its working
+
+/* http://127.0.0.1:8000/web/rentals */
+/* Rental Management Routes */
+Route::prefix('rentals')->group(function () {
+    // Main rental views
+    Route::get('/', [RentCarWebController::class, 'index'])->name('rentals.index');
+    Route::get('/pending', [RentCarWebController::class, 'pendingRentals'])->name('rentals.pending');
+    Route::get('/active', [RentCarWebController::class, 'activeRentals'])->name('rentals.active');
+    Route::get('/statistics', [RentCarWebController::class, 'statistics'])->name('rentals.statistics');
+
+    // Rental actions
+    Route::put('/approve/{rentId}', [RentCarWebController::class, 'approveRental'])
+        ->name('rentals.approve');
+    Route::put('/reject/{rentId}', [RentCarWebController::class, 'rejectRental'])
+        ->name('rentals.reject');
+    Route::put('/damage/{rentId}', [RentCarWebController::class, 'processRentalDamage'])
+        ->name('rentals.damage');
+    Route::get('/rejected', [RentCarWebController::class, 'rejectedRentals'])
+        ->name('rentals.rejected');
+    Route::get('/completed', [RentCarWebController::class, 'completedRentals'])
+        ->name('rentals.completed');
+    Route::get('/damaged', [RentCarWebController::class, 'damagedRentals'])
+        ->name('rentals.damaged');
+    Route::get('/filter/{status}', [RentCarWebController::class, 'filterRentals'])
+        ->name('rentals.filter');
+});
+
 
