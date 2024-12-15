@@ -239,8 +239,6 @@ class UserAPIController extends Controller
                 $imageUrl = $user->getImage();
             }
 
-            $hashedPassword = Hash::make($request->password);
-
             $this->registerUser->updateUser(
                 $userId,
                 $request->firstName ?? $user->getFirstName(),
@@ -248,7 +246,7 @@ class UserAPIController extends Controller
                 $request->phone ?? $user->getPhone(),
                 $request->address ?? $user->getAddress(),
                 $user->getUsername(),
-                $hashedPassword,
+                $user->getPassword(),
                 $imageUrl,
                 Carbon::now()->toDateTimeString()
             );
