@@ -23,8 +23,8 @@
         <table class="rental-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Car</th>
+                    <th>Rent ID</th>
+                    <th>Sports Car</th>
                     <th>User</th>
                     <th>Duration</th>
                     <th>Start Date</th>
@@ -35,12 +35,12 @@
             <tbody>
                 @foreach($rentals as $rental)
                 <tr>
-                    <td>{{ $rental->rentId }}</td>
-                    <td>{{ $rental->brandModel }}</td>
-                    <td>{{ $rental->name }}</td>
-                    <td>{{ $rental->rentDuration }}</td>
-                    <td>{{ $rental->startDate }}</td>
-                    <td>${{ number_format($rental->rentPrice, 2) }}</td>
+                    <td class="rent-id">{{ $rental->rentId }}</td>
+                    <td class="brand-model">{{ $rental->brandModel }}</td>
+                    <td class="user-name">{{ $rental->name }}</td>
+                    <td class="duration">{{ $rental->rentDuration }}</td>
+                    <td class="start-date">{{ $rental->startDate }}</td>
+                    <td>₱{{ number_format($rental->rentPrice, 2) }}</td>
                     <td>{{ $rental->updated_at }}</td>
                 </tr>
                 @endforeach
@@ -81,6 +81,10 @@
     border-radius: 10px;
     padding: 1.5rem;
     overflow-x: auto;
+}
+
+.brand-model, .user-name, .duration{
+    text-transform: capitalize;
 }
 
 .rental-table {
