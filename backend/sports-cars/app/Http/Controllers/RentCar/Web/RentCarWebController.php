@@ -40,21 +40,55 @@ class RentCarWebController extends Controller
 
     public function pendingRentals()
     {
-        $rentals = RentCarModel::where('status', 'pending')
-            ->with(['sportsCar', 'user'])
-            ->get();
-        $pendingCount = $this->getPendingCount();
-        return view('rentals.pending', compact('rentals', 'pendingCount'));
+        try {
+            $rentals = RentCarModel::where('status', 'pending')
+                ->with(['sportsCar', 'user'])
+                ->get();
+            $pendingCount = $this->getPendingCount();
+            
+            // Get statistics data
+            $stats = [
+                'total' => RentCarModel::count(),
+                'pending' => RentCarModel::where('status', 'pending')->count(),
+                'approved' => RentCarModel::where('status', 'approved')->count(),
+                'completed' => RentCarModel::where('status', 'completed')->count(),
+                'damaged' => RentCarModel::where('status', 'damaged')->count(),
+                'totalRevenue' => RentCarModel::where('status', 'completed')->sum('rentPrice'),
+                'damageCharges' => RentCarModel::whereNotNull('damageCharges')->sum('damageCharges')
+            ];
+            
+            return view('rentals.pending', compact('rentals', 'pendingCount', 'stats'));
+        } catch (\Exception $e) {
+            return redirect()->route('rentals.index')
+                ->with('error', 'Failed to load pending rentals: ' . $e->getMessage());
+        }
     }
 
     public function activeRentals()
     {
-        $rentals = RentCarModel::where('status', 'approved')
-            ->where('endDate', '>=', Carbon::now())
-            ->with(['sportsCar', 'user'])
-            ->get();
-        $pendingCount = $this->getPendingCount();
-        return view('rentals.active', compact('rentals', 'pendingCount'));
+        try {
+            $rentals = RentCarModel::where('status', 'approved')
+                ->where('endDate', '>=', Carbon::now())
+                ->with(['sportsCar', 'user'])
+                ->get();
+            $pendingCount = $this->getPendingCount();
+            
+            // Get statistics data
+            $stats = [
+                'total' => RentCarModel::count(),
+                'pending' => RentCarModel::where('status', 'pending')->count(),
+                'approved' => RentCarModel::where('status', 'approved')->count(),
+                'completed' => RentCarModel::where('status', 'completed')->count(),
+                'damaged' => RentCarModel::where('status', 'damaged')->count(),
+                'totalRevenue' => RentCarModel::where('status', 'completed')->sum('rentPrice'),
+                'damageCharges' => RentCarModel::whereNotNull('damageCharges')->sum('damageCharges')
+            ];
+            
+            return view('rentals.active', compact('rentals', 'pendingCount', 'stats'));
+        } catch (\Exception $e) {
+            return redirect()->route('rentals.index')
+                ->with('error', 'Failed to load active rentals: ' . $e->getMessage());
+        }
     }
 
     public function approveRental(string $rentId)
