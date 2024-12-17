@@ -22,8 +22,8 @@ const links = [
       path: "/contact",
     },
     {
-      name: "car file",
-      path: "/carfile",
+      name: "profile",
+      path: "/users",
     },
 ];
 
