@@ -57,12 +57,12 @@
                                 <img src="{{ asset('images/' . $car->image) }}" alt="Car Image"
                                     class="car-image">
                             </td>
-                            <td>{{ $car->brand }}</td>
-                            <td>{{ $car->model }}</td>
-                            <td>{{ $car->year }}</td>
-                            <td>{{ $car->description }}</td>
-                            <td>{{ $car->speed }}</td>
-                            <td>{{ $car->drivetrain }}</td>
+                            <td class="brand">{{ $car->brand }}</td>
+                            <td class="model">{{ $car->model }}</td>
+                            <td class="year">{{ $car->year }}</td>
+                            <td class="description">{{ $car->description }}</td>
+                            <td class="speed">{{ $car->speed }}</td>
+                            <td class="drivetrain">{{ $car->drivetrain }}</td>
                             <td>₱{{ number_format($car->price, 2) }}</td>
                             <td>
                                 <form action="{{ route('sportsCars.restore', $car->id) }}" method="GET" style="display:inline;">
@@ -174,7 +174,12 @@
 .sportscars-table tr:hover td {
     background-color: rgba(0, 255, 133, 0.05);
 }
-
+.brand, .model, .description {
+    text-transform: capitalize;
+}
+.drivetrain, .speed {
+    text-transform: uppercase;
+}
 /* Button Styles */
 .btn {
     text-decoration: none;

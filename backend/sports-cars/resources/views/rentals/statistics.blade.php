@@ -1,5 +1,5 @@
 @extends('layout.app')
-
+@section('title', 'Statistics')
 @section('content')
 <div class="dashboard-container">
     <div class="header-section">

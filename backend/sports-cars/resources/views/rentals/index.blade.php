@@ -10,7 +10,36 @@
     <!-- Stats Section -->
     <div class="stats-section">
         <div class="stats-container">
-            
+        <a href="{{ route('rentals.index') }}" class="stat-card-link">
+            <div class="stat-card">
+                <h2>{{ $stats['total'] ?? 0 }}</h2>
+                <p>Total Rentals</p>
+            </div>
+        </a>
+
+        <!-- Pending Rentals -->
+        <a href="{{ route('rentals.pending') }}" class="stat-card-link">
+            <div class="stat-card" style="background-color: rgba(255, 193, 7, 0.1); border-color: rgba(255, 193, 7, 0.2);">
+                <h2 style="color: #FFC107;">{{ $stats['pending'] ?? 0 }}</h2>
+                <p>Pending Rentals</p>
+            </div>
+        </a>
+
+        <!-- Active Rentals -->
+        <a href="{{ route('rentals.active') }}" class="stat-card-link">
+            <div class="stat-card" style="background-color: rgba(0, 255, 133, 0.1); border-color: rgba(0, 255, 133, 0.2);">
+                <h2 style="color: #00FF85;">{{ $stats['approved'] ?? 0 }}</h2>
+                <p>Active Rentals</p>
+            </div>
+        </a>
+
+        <!-- Completed Rentals -->
+        <a href="{{ route('rentals.completed') }}" class="stat-card-link">
+            <div class="stat-card" style="background-color: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2);">
+                <h2 style="color: #3B82F6;">{{ $stats['completed'] ?? 0 }}</h2>
+                <p>Completed Rentals</p>
+            </div>
+        </a>
         </div>
     </div>
 
@@ -23,7 +52,7 @@
             <thead>
                 <tr>
                     <th>Rent ID</th>
-                    <th>Car</th>
+                    <th>Sports Car</th>
                     <th>User</th>
                     <th>Duration</th>
                     <th>Status</th>
@@ -33,10 +62,10 @@
                 @foreach($rentals as $rental)
                 <tr>
                     <td>{{ $rental->rentId }}</td>
-                    <td class="captalize">{{ $rental->brandModel }}</td>
-                    <td>{{ $rental->name }}</td>
-                    <td>{{ $rental->rentDuration }}</td>
-                    <td>{{ ucfirst($rental->status) }}</td>
+                    <td class="brand-model">{{ $rental->brandModel }}</td>
+                    <td class="user-name">{{ $rental->name }}</td>
+                    <td class="duration">{{ $rental->rentDuration }}</td>
+                    <td class="status">{{ ucfirst($rental->status) }}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -74,12 +103,40 @@
 .stats-section {
     margin-bottom: 3rem;
 }
-
 .stats-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
+    margin-bottom: 3rem;
 }
+
+.stat-card {
+    background-color: rgba(0, 255, 133, 0.1);
+    border: 1px solid rgba(0, 255, 133, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    color: #888;
+    font-size: 1rem;
+}
+
+.stat-card-link {
+    text-decoration: none;
+}
+
 
 /* Table Styles */
 .table-container {
@@ -90,6 +147,9 @@
     margin-top: 2rem;
 }
 
+.brand-model, .user-name, .duration, .status {
+    text-transform: capitalize;
+}
 .rental-table {
     width: 100%;
     border-collapse: separate;
@@ -126,7 +186,7 @@
     }
 
     .stats-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
 
     .table-container {
@@ -138,19 +198,11 @@
     }
 }
 
-/* Link Styles */
-.stat-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
 
-/* Animation for hover effects */
-.stat-card-link:hover .stat-card {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 255, 133, 0.2);
+/* Dark Mode */
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
 }
-
-/* Dark
 </style>
 @endsection

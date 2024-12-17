@@ -71,7 +71,7 @@ class AdminWebController extends Controller
 
         session(['admin' => $user]);
         
-        return redirect()->route('sportsCars.index');
+        return redirect()->route('rentals.statistics');
     }
 
     public function logout()

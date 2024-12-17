@@ -19,12 +19,47 @@
         </div>
     @endif
 
+    <div class="stats-section">
+        <div class="stats-container">
+        <a href="{{ route('rentals.index') }}" class="stat-card-link">
+            <div class="stat-card">
+                <h2>{{ $stats['total'] ?? 0 }}</h2>
+                <p>Total Rentals</p>
+            </div>
+        </a>
+
+        <!-- Pending Rentals -->
+        <a href="{{ route('rentals.pending') }}" class="stat-card-link">
+            <div class="stat-card" style="background-color: rgba(255, 193, 7, 0.1); border-color: rgba(255, 193, 7, 0.2);">
+                <h2 style="color: #FFC107;">{{ $stats['pending'] ?? 0 }}</h2>
+                <p>Pending Rentals</p>
+            </div>
+        </a>
+
+        <!-- Active Rentals -->
+        <a href="{{ route('rentals.active') }}" class="stat-card-link">
+            <div class="stat-card" style="background-color: rgba(0, 255, 133, 0.1); border-color: rgba(0, 255, 133, 0.2);">
+                <h2 style="color: #00FF85;">{{ $stats['approved'] ?? 0 }}</h2>
+                <p>Active Rentals</p>
+            </div>
+        </a>
+
+        <!-- Completed Rentals -->
+        <a href="{{ route('rentals.completed') }}" class="stat-card-link">
+            <div class="stat-card" style="background-color: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2);">
+                <h2 style="color: #3B82F6;">{{ $stats['completed'] ?? 0 }}</h2>
+                <p>Completed Rentals</p>
+            </div>
+        </a>
+        </div>
+    </div>
+
     <div class="table-container">
         <table class="rental-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Car</th>
+                    <th>Rent ID</th>
+                    <th>Sports Car</th>
                     <th>User</th>
                     <th>Duration</th>
                     <th>Start Date</th>
@@ -36,11 +71,11 @@
                 @foreach($rentals as $rental)
                 <tr>
                     <td>{{ $rental->rentId }}</td>
-                    <td>{{ $rental->brandModel }}</td>
-                    <td>{{ $rental->name }}</td>
-                    <td>{{ $rental->rentDuration }}</td>
-                    <td>{{ $rental->startDate }}</td>
-                    <td>${{ number_format($rental->rentPrice, 2) }}</td>
+                    <td class="brand-model">{{ $rental->brandModel }}</td>
+                    <td class="user-name">{{ $rental->name }}</td>
+                    <td class="duration">{{ $rental->rentDuration }}</td>
+                    <td class="start-date">{{ $rental->startDate }}</td>
+                    <td>₱{{ number_format($rental->rentPrice, 2) }}</td>
                     <td>
                         <form action="{{ route('rentals.approve', $rental->rentId) }}" method="POST" class="inline">
                             @csrf
@@ -86,12 +121,54 @@
     margin-bottom: 2rem;
 }
 
+/* Stats Section Styles */
+.stats-section {
+    margin-bottom: 3rem;
+}
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background-color: rgba(0, 255, 133, 0.1);
+    border: 1px solid rgba(0, 255, 133, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    color: #888;
+    font-size: 1rem;
+}
+
+.stat-card-link {
+    text-decoration: none;
+}
+
 /* Table Styles */
 .table-container {
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
     padding: 1.5rem;
     overflow-x: auto;
+}
+
+.brand-model, .user-name, .duration {
+    text-transform: capitalize;
 }
 
 .rental-table {
@@ -169,6 +246,10 @@
 
     .dashboard-title {
         font-size: 2rem;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
 
     .table-container {
