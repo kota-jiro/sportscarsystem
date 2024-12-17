@@ -130,8 +130,50 @@ class RentCarAPIController extends Controller
 
     public function getUserRentals(string $userId)
     {
-        $rentals = RentCarModel::where('userId', $userId)->get();
-        return response()->json(['rentals' => $rentals]);
+        $rentals = RentCarModel::where('userId', $userId)
+            ->with('sportsCar')  // Eager load the sports car relationship
+            ->select(
+                'rentId',
+                'sportsCarId',
+                'brandModel',
+                'rentPrice',
+                'rentDuration',
+                'startDate',
+                'endDate',
+                'status',
+                'damageCharges'
+            )
+            ->get();
+
+        $formattedRentals = $rentals->map(function ($rental) {
+            $totalPrice = $rental->rentPrice;
+            if ($rental->damageCharges) {
+                $totalPrice += $rental->damageCharges;
+            }
+
+            return [
+                'rentId' => $rental->rentId,
+                'carName' => $rental->brandModel,
+                'rentPrice' => $rental->rentPrice,
+                'rentDuration' => $rental->rentDuration,
+                'startDate' => $rental->startDate,
+                'endDate' => $rental->endDate,
+                'status' => $rental->status,
+                'damageCharges' => $rental->damageCharges ?? 0,
+                'totalPrice' => $totalPrice
+            ];
+        });
+
+        $activeRentals = $formattedRentals->filter(function ($rental) {
+            return $rental['status'] === 'approved' && 
+                   strtotime($rental['endDate']) >= strtotime(date('Y-m-d'));
+        });
+
+        return response()->json([
+            'rentals' => $activeRentals->values(),
+            'totalActiveRentals' => $activeRentals->count(),
+            'totalRentAmount' => $activeRentals->sum('totalPrice')
+        ]);
     }
 
     public function approveRental(string $rentId)

@@ -60,12 +60,12 @@
                         <td>{{ $car['sportsCarId'] }}</td>
                         <td><img src="{{ asset('images/' . $car['image']) }}" class="card-img-top"
                                 alt="{{ $car['brand'] }} Image" style="height: 200px; object-fit: cover;"></td>
-                        <td>{{ $car['brand'] }}</td>
-                        <td>{{ $car['model'] }}</td>
-                        <td>{{ $car['year'] }}</td>
-                        <td>{{ $car['description'] }}</td>
-                        <td>{{ $car['speed'] }}</td>
-                        <td>{{ $car['drivetrain'] }}</td>
+                        <td class="brand">{{ $car['brand'] }}</td>
+                        <td class="model">{{ $car['model'] }}</td>
+                        <td class="year">{{ $car['year'] }}</td>
+                        <td class="description">{{ $car['description'] }}</td>
+                        <td class="speed">{{ $car['speed'] }}</td>
+                        <td class="drivetrain">{{ $car['drivetrain'] }}</td>
                         <td>{{ '₱' . number_format($car['price'], 2) }}</td>
                         <td>{{ $car['created_at'] }}</td>
                         <td>{{ $car['updated_at'] }}</td>
@@ -198,6 +198,12 @@ label {
 
 .sportscars-table tr:hover td {
     background-color: rgba(0, 255, 133, 0.05);
+}
+.brand, .model, .description {
+    text-transform: capitalize;
+}
+.drivetrain, .speed {
+    text-transform: uppercase;
 }
 
 /* Button Styles */
