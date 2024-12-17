@@ -85,6 +85,7 @@ const Login = () => {
         phone: data.user.phone,
         address: data.user.address,
         username: data.user.username,
+        password: data.user.password,
         image: data.user.image,
         roleId: data.user.roleId
       };
@@ -109,11 +110,12 @@ const Login = () => {
         {/* Centered Logo */}
         <div className="flex justify-center">
           <Image
-            src="/logo.png" // Make sure to add your logo image
-            alt="Logo"
-            width={80}
-            height={80}
-            className="rounded-full"
+            src="/images/exotic-car-logo.jpg"
+            alt="Exotic Car Logo"
+            width={120}
+            height={120}
+            className="rounded-full border-2 border-accent/50 shadow-lg mix-blend-lighten brightness-100 contrast-125"
+            priority
           />
         </div>
         {/* Form Title */}
