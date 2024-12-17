@@ -1,12 +1,22 @@
+"use client";
 import Social from "@/components/Social";
 import { Button } from "@/components/ui/button";
 import { FiArrowDownCircle } from "react-icons/fi";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Photo from "@/components/Photo";
 import Stats from "@/components/Stats";
 import Header from "@/components/Header";
 
 const Home = () => {
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (user && user.firstName) {
+      setUserName(user.firstName);
+    }
+  }, []);
+
   return (
     <>
       <Header />
@@ -18,17 +28,13 @@ const Home = () => {
               <span className="text-center xl:text-left">
                 Sports Car Dealership
               </span>
-              <h1 className="h1 mb-6">
-                {/* Hello I&apos;m <br /><span className='text-accent'>Joshua Mark</span> */}
-                Find Car
+              <h1 className="h1 mb-6 capitalize">
+                Welcome, {userName ? userName : "Guest"}
                 <br />
                 <span className="text-accent">Ride Own</span>
               </h1>
               <p className="max-w-[500px] mb-9 text-white/80">
-                Exotic Car is a platform for buying and selling high-performance
-                sports cars. It provides an easy way to browse, manage, and
-                explore luxury vehicles with detailed information and images,
-                ensuring a smooth and reliable experience for all users.
+              Exotic Car is a comprehensive platform designed for both the purchase and rental of high-performance sports cars. It provides users with an extensive inventory of luxury vehicles, detailed specifications, and high-quality visuals. Whether you&apos;re looking to own your dream car or rent one for a special occasion, Exotic Car offers a seamless, reliable, and premium experience tailored to meet the needs of car enthusiasts and professionals alike.
               </p>
 
               <div className="flex flex-col xl:flex-row items-center gap-8">
