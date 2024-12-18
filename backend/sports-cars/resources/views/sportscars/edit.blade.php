@@ -30,7 +30,13 @@
                 </div>
                 <div class="form-group">
                     <label for="drivetrain">Drivetrain</label>
-                    <input type="text" name="drivetrain" class="form-control drivetrain-input" value="{{ $sportsCar->drivetrain }}" required>
+                    <select class="form-control drivetrain-input" id="drivetrain" name="drivetrain" required>
+                        <option value="">Select Drivetrain</option>
+                        <option value="AWD" {{ $sportsCar->drivetrain === 'AWD' ? 'selected' : '' }}>AWD (All-Wheel Drive)</option>
+                        <option value="FWD" {{ $sportsCar->drivetrain === 'FWD' ? 'selected' : '' }}>FWD (Front-Wheel Drive)</option>
+                        <option value="4WD" {{ $sportsCar->drivetrain === '4WD' ? 'selected' : '' }}>4WD (Four-Wheel Drive)</option>
+                        <option value="RWD" {{ $sportsCar->drivetrain === 'RWD' ? 'selected' : '' }}>RWD (Rear-Wheel Drive)</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="price">Price</label>
@@ -117,13 +123,32 @@
 }
 
 .form-control {
-    width: 100%;
-    padding: 0.75rem;
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
     color: #ffffff;
-    transition: all 0.3s ease;
+    padding: 0.75rem;
+    border-radius: 6px;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.form-control option {
+    background-color: rgb(28, 28, 34);
+    color: #ffffff;
+    padding: 10px;
+}
+
+.form-control option:hover,
+.form-control option:focus,
+.form-control option:active,
+.form-control option:checked {
+    background-color: rgba(0, 255, 133, 0.1);
 }
 
 .form-control:focus {
