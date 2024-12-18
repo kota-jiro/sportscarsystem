@@ -63,6 +63,29 @@
 </div>
 
 <style>
+.dashboard-container {
+    min-height: 100vh;
+    background-color: rgb(28, 28, 34);
+    color: #ffffff;
+    padding-bottom: 2rem;
+    padding-right: 2rem;
+}
+
+.header-section {
+    margin-bottom: 3rem;
+}
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+    font-size: 1.2rem;
+    color: #888;
+    margin-bottom: 2rem;
+}
 .stats-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

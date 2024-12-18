@@ -16,8 +16,23 @@
         </div>
     @endif
 
+    <div class="stats-section">
+        <div class="stats-container">
+            <!-- Total Sports Cars -->
+            <div class="stat-card">
+                <h2>{{ $sportsCarCount }}</h2>
+                <p>Total Sports Cars</p>
+            </div>
+
+            <!-- Total Brands -->
+            <div class="stat-card" style="background-color: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2);">
+                <h2 style="color: #3B82F6;">{{ $totalBrands }}</h2>
+                <p>Total Brands</p>
+            </div>
+        </div>
+    </div>
+
     <form method="GET" action="{{ route('sportsCars.index') }}" class="mb-3">
-        <p>Total Brands: {{ $totalBrands }}</p>
         <div class="form-group">
             <label for="brand">Select Brand:</label>
             <select name="brand" id="brand" class="form-control" onchange="this.form.submit()">
@@ -26,9 +41,7 @@
                 <option value="{{ $brand }}" {{ $brandFilter == $brand ? 'selected' : '' }}>{{ $brand }}</option>
                 @endforeach
             </select>
-            
         </div>
-        <p>Total Sports Cars: {{ $sportsCarCount }}</p>
         <div class="mt-4">
             <a href="{{ route('sportsCars.create') }}" class="btn btn-primary">Add New Sports Car</a>
         </div>
@@ -112,6 +125,43 @@
     font-size: 1.2rem;
     color: #888;
     margin-bottom: 2rem;
+}
+/* Stats Section Styles */
+.stats-section {
+    margin-bottom: 3rem;
+}
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background-color: rgba(0, 255, 133, 0.1);
+    border: 1px solid rgba(0, 255, 133, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    color: #888;
+    font-size: 1rem;
+}
+
+.stat-card-link {
+    text-decoration: none;
 }
 
 /* Form Styling */
@@ -265,6 +315,10 @@ label {
 
     .dashboard-title {
         font-size: 2rem;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
 
     .table-container {
