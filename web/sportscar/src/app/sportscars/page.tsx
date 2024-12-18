@@ -502,7 +502,7 @@ const SportsCars = () => {
                         type="text"
                         value={currentCar.sportsCarId}
                         className="w-full p-3 rounded bg-[#2A2A2A] text-white border border-gray-600 focus:border-accent focus:outline-none"
-                        
+                        hidden
                       />
                     </div>
 
@@ -512,7 +512,7 @@ const SportsCars = () => {
                         type="text"
                         value={user.userId}
                         className="w-full p-3 rounded bg-[#2A2A2A] text-white border border-gray-600 focus:border-accent focus:outline-none"
-                        
+                        hidden
                       />
                     </div>
 
@@ -644,7 +644,7 @@ const SportsCars = () => {
             {/* Brand Selector */}
             <div className="w-full max-w-md">
               <select
-                className="w-full p-3 rounded bg-[#2A2A2A] text-white border border-accent focus:border-accent focus:outline-none appearance-none cursor-pointer"
+                className="w-full p-3 rounded bg-[#2A2A2A] capitalize text-white border border-accent focus:border-accent focus:outline-none appearance-none cursor-pointer"
                 onChange={(e) => setSelectedBrand(e.target.value)}
                 value={selectedBrand}
               >
