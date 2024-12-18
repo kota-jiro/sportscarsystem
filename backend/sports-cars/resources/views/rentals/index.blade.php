@@ -34,7 +34,7 @@
         </a>
 
         <!-- Completed Rentals -->
-        <a href="{{ route('rentals.completed') }}" class="stat-card-link">
+        <a href="{{ route('rentals.statistics') }}" class="stat-card-link">
             <div class="stat-card" style="background-color: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2);">
                 <h2 style="color: #3B82F6;">{{ $stats['completed'] ?? 0 }}</h2>
                 <p>Completed Rentals</p>
